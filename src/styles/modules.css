@@ -1,0 +1,500 @@
+/* =====================================================================
+   DOSSIER MODULE VIEWS (01 ARCHIVE .. 06 TRANSMISSIONS)
+   ===================================================================== */
+
+/* ---------------------------------------------------------------------
+   01 // ARCHIVE (Projects)
+   --------------------------------------------------------------------- */
+.archive-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.archive-empty-state {
+  background: rgba(234, 228, 211, 0.35);
+  border: 1px dashed var(--border-line);
+  border-left: 3px solid var(--accent-gold);
+  padding: 28px 32px;
+}
+
+.archive-empty-code {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 1.8px;
+  color: var(--accent-gold);
+  margin-bottom: 8px;
+}
+
+.archive-empty-desc {
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: var(--text-dim);
+}
+
+.archive-card {
+  position: relative;
+  background: rgba(234, 228, 211, 0.45);
+  border: 1px solid var(--border-line);
+  border-left: 3px solid var(--text-main);
+  padding: 24px 28px;
+  transition: background-color 0.25s ease, transform 0.25s var(--ease-out-expo), border-color 0.25s ease;
+}
+
+.archive-card:hover {
+  background: var(--bg-surface-light);
+  transform: translateX(4px);
+}
+
+.archive-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.archive-card-title-group {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.archive-card-index {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--accent-gold);
+  letter-spacing: 1.5px;
+}
+
+.archive-card-title {
+  font-family: var(--font-serif);
+  font-size: 19px;
+  letter-spacing: 1.5px;
+  color: var(--text-main);
+}
+
+.archive-card-stats {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.2px;
+  padding: 2px 8px;
+  border: 1px solid var(--border-line);
+  background: var(--bg-surface);
+  color: var(--text-dim);
+}
+
+.archive-card-category {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 1.6px;
+  margin: 6px 0 12px;
+  color: var(--accent-gold);
+}
+
+.archive-card-desc {
+  font-size: 14px;
+  line-height: 1.68;
+  margin-bottom: 16px;
+  color: var(--text-main);
+  max-width: 78ch;
+}
+
+.archive-tech-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.archive-tech-tag {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.8px;
+  background: var(--bg-surface-light);
+  border: 1px solid var(--border-line);
+  padding: 4px 11px;
+  color: var(--text-main);
+}
+
+/* ---------------------------------------------------------------------
+   02 // UNIT DATA (Biography & Technical Specs)
+   --------------------------------------------------------------------- */
+.unit-data-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.unit-bio-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border-left: 2px solid var(--border-line);
+  padding-left: 22px;
+}
+
+.unit-bio-paragraph {
+  font-size: 14.5px;
+  line-height: 1.78;
+  color: var(--text-main);
+  max-width: 76ch;
+}
+
+.unit-specs-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  background: var(--bg-surface-light);
+  border: 1px solid var(--border-line);
+  padding: 22px 24px;
+}
+
+.unit-spec-item {
+  padding: 10px 14px;
+  border-left: 2px solid var(--accent-gold);
+  background: rgba(212, 206, 188, 0.3);
+  transition: background-color 0.2s ease;
+}
+
+.unit-spec-item:hover {
+  background: rgba(212, 206, 188, 0.55);
+}
+
+.unit-spec-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.6px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+}
+
+.unit-spec-value {
+  font-family: var(--font-mono);
+  font-size: 13.5px;
+  font-weight: 600;
+  margin-top: 4px;
+  color: var(--text-main);
+}
+
+/* ---------------------------------------------------------------------
+   03 // CHIP CONFIG (Skills Matrix)
+   --------------------------------------------------------------------- */
+.chip-sectors-list {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.chip-sector-card {
+  background: rgba(234, 228, 211, 0.35);
+  border: 1px solid var(--border-line);
+  padding: 20px 24px;
+}
+
+.chip-sector-header {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--border-line);
+  padding-bottom: 8px;
+  color: var(--text-main);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chip-sector-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px 24px;
+}
+
+.chip-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.chip-item-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 13px;
+}
+
+.chip-item-name {
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.chip-item-val {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+.chip-bar-track {
+  height: 4px;
+  background: rgba(58, 54, 46, 0.14);
+  overflow: hidden;
+  position: relative;
+}
+
+.chip-bar-fill {
+  height: 100%;
+  background: var(--text-main);
+  transition: width 0.6s var(--ease-out-expo);
+}
+
+/* ---------------------------------------------------------------------
+   04 // JOURNEY (Chronicles & Quests Timeline)
+   --------------------------------------------------------------------- */
+.chronicles-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: relative;
+  padding-left: 12px;
+}
+
+.chronicles-item {
+  position: relative;
+  border-left: 2px solid var(--text-main);
+  padding: 16px 22px 16px 24px;
+  background: rgba(234, 228, 211, 0.35);
+  border-top: 1px solid var(--border-subtle);
+  border-right: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+  transition: background-color 0.22s ease, transform 0.22s var(--ease-out-expo);
+}
+
+.chronicles-item::before {
+  content: '';
+  position: absolute;
+  left: -5px;
+  top: 22px;
+  width: 8px;
+  height: 8px;
+  background: var(--bg-primary);
+  border: 2px solid var(--text-main);
+  transform: rotate(45deg);
+}
+
+.chronicles-item:hover {
+  background: var(--bg-surface-light);
+  transform: translateX(4px);
+}
+
+.chronicles-meta {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 1.6px;
+  color: var(--accent-gold);
+}
+
+.chronicles-title {
+  font-family: var(--font-serif);
+  font-size: 17.5px;
+  letter-spacing: 1.2px;
+  margin-top: 4px;
+  color: var(--text-main);
+}
+
+.chronicles-desc {
+  font-size: 13.5px;
+  line-height: 1.65;
+  margin-top: 8px;
+  color: var(--text-dim);
+  max-width: 75ch;
+}
+
+/* ---------------------------------------------------------------------
+   05 // ARSENAL (Gear & Instruments)
+   --------------------------------------------------------------------- */
+.arsenal-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+.arsenal-card {
+  background: var(--bg-surface-light);
+  border: 1px solid var(--border-line);
+  padding: 22px 24px;
+  position: relative;
+  transition: transform 0.22s var(--ease-out-expo), border-color 0.22s ease, background-color 0.22s ease;
+}
+
+.arsenal-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--border-heavy);
+  background: var(--bg-highlight);
+}
+
+.arsenal-slot {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 1.8px;
+  color: var(--text-faint);
+  margin-bottom: 6px;
+}
+
+.arsenal-title {
+  font-family: var(--font-mono);
+  font-size: 13.5px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  color: var(--text-main);
+}
+
+.arsenal-desc {
+  font-size: 13px;
+  margin-top: 8px;
+  line-height: 1.58;
+  color: var(--text-dim);
+}
+
+/* ---------------------------------------------------------------------
+   06 // TRANSMISSIONS (Communication Channels)
+   --------------------------------------------------------------------- */
+.transmissions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.transmission-link {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 24px;
+  background: var(--bg-surface-light);
+  border: 1px solid var(--border-line);
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.22s var(--ease-out-expo);
+}
+
+.transmission-link:hover {
+  background: var(--bg-highlight);
+  border-color: var(--border-heavy);
+  transform: translateX(4px);
+}
+
+.transmission-left {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.transmission-icon-box {
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--border-line);
+  background: var(--bg-surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-main);
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.transmission-link:hover .transmission-icon-box {
+  background: var(--text-main);
+  color: var(--bg-primary);
+}
+
+.transmission-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.6px;
+  color: var(--text-faint);
+}
+
+.transmission-address {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  margin-top: 3px;
+  color: var(--text-main);
+  font-weight: 600;
+}
+
+.transmission-action {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 1.2px;
+  color: var(--text-dim);
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.transmission-link:hover .transmission-action {
+  color: var(--text-main);
+  transform: translateX(2px);
+}
+
+@media (max-width: 768px) {
+  .unit-specs-grid,
+  .chip-sector-grid,
+  .arsenal-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .archive-card {
+    padding: 18px 16px;
+  }
+  .archive-card-title {
+    font-size: 16.5px;
+  }
+  .archive-card-desc {
+    font-size: 13px;
+  }
+
+  .unit-bio-section {
+    padding-left: 14px;
+  }
+  .unit-bio-paragraph {
+    font-size: 13.5px;
+    line-height: 1.65;
+  }
+  .unit-specs-grid {
+    padding: 16px;
+    gap: 10px;
+  }
+
+  .chip-sector-card {
+    padding: 16px;
+  }
+
+  .chronicles-timeline {
+    padding-left: 6px;
+  }
+  .chronicles-item {
+    padding: 14px 16px 14px 18px;
+  }
+  .chronicles-title {
+    font-size: 15.5px;
+  }
+
+  .arsenal-card {
+    padding: 16px 18px;
+  }
+
+  .transmission-link {
+    padding: 14px 16px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .transmission-left {
+    gap: 12px;
+    min-width: 0;
+  }
+  .transmission-address {
+    font-size: 12.5px;
+    word-break: break-all;
+  }
+}

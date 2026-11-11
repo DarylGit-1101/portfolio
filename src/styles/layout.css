@@ -1,0 +1,815 @@
+/* =====================================================================
+   PORTFOLIO SHELL, TELEMETRY HUD, CONSTELLATION & DOSSIER FRAME
+   ===================================================================== */
+
+.portfolio-shell {
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--bg-primary);
+}
+
+/* ---------------------------------------------------------------------
+   1. TOP SYSTEM TELEMETRY STRIP
+   --------------------------------------------------------------------- */
+.telemetry-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--header-height);
+  padding: 0 36px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-line);
+  background: rgba(212, 206, 188, 0.88);
+  z-index: 35;
+}
+
+.telemetry-brand {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--text-dim);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.telemetry-pip {
+  width: 6px;
+  height: 6px;
+  background: var(--text-main);
+  display: inline-block;
+  transform: rotate(45deg);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.telemetry-pip.pip-active {
+  background: var(--accent-gold);
+  transform: rotate(45deg) scale(1.35);
+}
+
+.telemetry-brand-name {
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.telemetry-divider {
+  opacity: 0.35;
+}
+
+.telemetry-codename {
+  color: var(--accent-gold);
+}
+
+.telemetry-controls {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  color: var(--text-dim);
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.telemetry-clock {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.hud-btn {
+  background: var(--bg-surface-light);
+  border: 1px solid var(--border-line);
+  padding: 4px 12px;
+  color: var(--text-main);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  cursor: pointer;
+  letter-spacing: 1.2px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.18s ease;
+}
+
+.hud-btn:hover {
+  background: var(--bg-highlight);
+  border-color: var(--border-heavy);
+}
+
+/* ---------------------------------------------------------------------
+   2. FLOATING CONSTELLATION (DICE & 6 SHURIKENS)
+   --------------------------------------------------------------------- */
+.constellation-anchor {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  z-index: 40;
+}
+
+.orbital-ring {
+  position: absolute;
+  top: -180px;
+  left: -180px;
+  width: 360px;
+  height: 360px;
+  border-radius: 50%;
+  border: 1px dashed var(--border-line);
+  pointer-events: none;
+  transition: opacity 0.65s ease, transform 0.65s var(--ease-out-expo);
+}
+
+.orbital-ring-inner {
+  position: absolute;
+  top: -58px;
+  left: -58px;
+  width: 116px;
+  height: 116px;
+  border-radius: 50%;
+  border: 1px solid var(--border-subtle);
+  pointer-events: none;
+  transition: opacity 0.55s ease, transform 0.55s var(--ease-out-expo);
+}
+
+.dice-node {
+  position: absolute;
+  top: -28px;
+  left: -28px;
+  transition: transform 0.85s var(--ease-out-expo);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.dice-mobile-return-pill {
+  position: absolute;
+  top: 50%;
+  left: 44px;
+  transform: translateY(-50%);
+  background: var(--bg-surface-light);
+  border: 1px solid var(--border-line);
+  border-left: 2px solid var(--text-main);
+  padding: 2px 7px;
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 1px;
+  color: var(--text-dim);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.dice-icon-wrap {
+  position: relative;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+
+.dice-icon-inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-origin: center center;
+  will-change: transform;
+}
+
+.dice-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transition: opacity 0.22s ease, transform 0.22s ease;
+  pointer-events: none;
+}
+
+.dice-svg-outline {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.dice-svg-outline.is-hidden {
+  opacity: 0;
+  transform: scale(0.92);
+}
+
+.dice-svg-solid {
+  opacity: 0;
+  transform: scale(1.08);
+}
+
+.dice-svg-solid.is-visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.shuriken-star-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.shuriken-reticle-svg {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.shuriken-blade-svg {
+  transform-origin: center center;
+  will-change: transform;
+}
+
+.dice-reset-tooltip {
+  position: absolute;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg-surface-light);
+  border: 1px solid var(--border-heavy);
+  padding: 4px 12px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.2px;
+  color: var(--text-main);
+  white-space: nowrap;
+  pointer-events: none;
+  box-shadow: 0 6px 18px rgba(58, 54, 46, 0.15);
+  z-index: 70;
+  animation: fadeInSlide 0.2s var(--ease-out-expo) forwards;
+}
+
+.shuriken-node {
+  position: absolute;
+  top: -14px;
+  left: -14px;
+  z-index: 45;
+  cursor: pointer;
+  transition: transform 0.85s var(--ease-out-expo), opacity 0.25s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.shuriken-node.is-hovered {
+  z-index: 120;
+}
+
+.shuriken-node.is-dimmed {
+  opacity: 0.38;
+}
+
+/* Shuriken Orbit Mobile Label (Positioned outward around the orbital ring) */
+.shuriken-orbit-mobile-label {
+  position: absolute;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(242, 237, 225, 0.95);
+  border: 1px solid var(--border-line);
+  border-left: 2px solid var(--text-main);
+  padding: 2px 6px;
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  letter-spacing: 1px;
+  white-space: nowrap;
+  pointer-events: none;
+  box-shadow: 0 3px 10px rgba(58, 54, 46, 0.12);
+}
+
+/* Top star (12 o'clock): place badge ABOVE the star so it doesn't enter the circle */
+.shuriken-orbit-mobile-label.orbit-pos-0 {
+  top: auto;
+  bottom: 30px;
+}
+
+.shuriken-orbit-mobile-code {
+  color: var(--accent-gold);
+  font-weight: 700;
+}
+
+.shuriken-orbit-mobile-title {
+  color: var(--text-main);
+  font-weight: 700;
+}
+
+/* Shuriken Label in Top Bar Mode */
+.shuriken-top-label {
+  position: absolute;
+  top: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  pointer-events: none;
+  transition: all 0.25s ease;
+}
+
+.shuriken-top-label-icon {
+  color: var(--text-dim);
+  opacity: 0.65;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+}
+
+.shuriken-top-label-text {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 1.4px;
+  color: var(--text-dim);
+  font-weight: 500;
+  white-space: nowrap;
+  padding-bottom: 3px;
+  border-bottom: 1.5px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.shuriken-node:hover .shuriken-top-label-icon,
+.shuriken-top-label.is-active .shuriken-top-label-icon {
+  color: var(--text-main);
+  opacity: 1;
+}
+
+.shuriken-node:hover .shuriken-top-label-text,
+.shuriken-top-label.is-active .shuriken-top-label-text {
+  color: var(--text-main);
+  font-weight: 700;
+}
+
+.shuriken-top-label.is-active .shuriken-top-label-text {
+  border-bottom-color: var(--text-main);
+}
+
+/* Hover Preview Card in Circle Mode (NieR YoRHa Target Readout) */
+.shuriken-preview-card {
+  position: absolute;
+  width: 296px;
+  background: var(--bg-highlight);
+  border: 1px solid var(--border-heavy);
+  border-left: 3px solid var(--text-main);
+  box-shadow:
+    6px 6px 0 rgba(58, 54, 46, 0.14),
+    0 16px 38px rgba(58, 54, 46, 0.24);
+  pointer-events: none;
+  z-index: 130;
+  animation: fadeInSlide 0.2s var(--ease-out-expo) forwards;
+}
+
+.shuriken-preview-card.pos-right {
+  top: -22px;
+  left: 52px;
+}
+
+.shuriken-preview-card.pos-left {
+  top: -22px;
+  right: 52px;
+}
+
+/* Tactical connector line linking star to card */
+.shuriken-preview-connector {
+  position: absolute;
+  top: 35px;
+  width: 20px;
+  height: 1px;
+  background: var(--text-main);
+}
+
+.shuriken-preview-connector::after {
+  content: '';
+  position: absolute;
+  top: -2.5px;
+  width: 5px;
+  height: 5px;
+  background: var(--text-main);
+  transform: rotate(45deg);
+}
+
+.shuriken-preview-card.pos-right .shuriken-preview-connector {
+  left: -20px;
+}
+
+.shuriken-preview-card.pos-right .shuriken-preview-connector::after {
+  left: -2px;
+}
+
+.shuriken-preview-card.pos-left .shuriken-preview-connector {
+  right: -20px;
+}
+
+.shuriken-preview-card.pos-left .shuriken-preview-connector::after {
+  right: -2px;
+}
+
+/* Dark YoRHa Header Strip */
+.shuriken-preview-banner {
+  background: var(--text-main);
+  color: var(--bg-primary);
+  padding: 6px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 1.8px;
+}
+
+.shuriken-preview-banner-left {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-weight: 700;
+}
+
+.shuriken-preview-pip {
+  width: 5px;
+  height: 5px;
+  background: var(--bg-primary);
+  display: inline-block;
+  transform: rotate(45deg);
+}
+
+.shuriken-preview-banner-right {
+  color: var(--bg-surface);
+  font-size: 9px;
+  letter-spacing: 1.4px;
+}
+
+.shuriken-preview-body {
+  position: relative;
+  padding: 15px 18px 14px;
+  background: var(--bg-highlight);
+  overflow: hidden;
+}
+
+.shuriken-preview-grid-bg {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(58, 54, 46, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(58, 54, 46, 0.035) 1px, transparent 1px);
+  background-size: 20px 20px;
+  pointer-events: none;
+}
+
+.shuriken-preview-top-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin-bottom: 11px;
+  padding-bottom: 11px;
+  border-bottom: 1px solid var(--border-line);
+}
+
+.shuriken-preview-icon-box {
+  width: 38px;
+  height: 38px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-main);
+  flex-shrink: 0;
+}
+
+.shuriken-preview-title-wrap {
+  min-width: 0;
+}
+
+.shuriken-preview-title {
+  font-family: var(--font-serif);
+  font-size: 16.5px;
+  letter-spacing: 1.6px;
+  color: var(--text-main);
+  line-height: 1.2;
+}
+
+.shuriken-preview-subtitle {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  color: var(--accent-gold);
+  letter-spacing: 1.3px;
+  margin-top: 3px;
+}
+
+.shuriken-preview-tagline {
+  position: relative;
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--text-dim);
+  margin-bottom: 13px;
+}
+
+.shuriken-preview-cta {
+  position: relative;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 1.4px;
+  border-top: 1px solid var(--border-line);
+  padding-top: 9px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.shuriken-preview-status {
+  color: var(--text-faint);
+}
+
+.shuriken-preview-engage {
+  color: var(--text-main);
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--bg-surface);
+  padding: 2px 8px;
+  border: 1px solid var(--border-line);
+}
+
+/* ---------------------------------------------------------------------
+   3. DOSSIER CONTENT CONTAINER (CENTERED & PROPORTIONATE MARGINS)
+   --------------------------------------------------------------------- */
+.dossier-wrapper {
+  position: absolute;
+  top: 142px;
+  bottom: 58px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  padding: 0 48px;
+  z-index: 20;
+  pointer-events: none;
+}
+
+.dossier-frame {
+  width: 100%;
+  max-width: var(--dossier-max-width);
+  height: 100%;
+  border: 1px solid var(--border-line);
+  background: var(--bg-surface);
+  box-shadow: 0 12px 40px rgba(58, 54, 46, 0.08);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  pointer-events: auto;
+}
+
+/* Fixed Corner Tactical Brackets on the Frame */
+.dossier-corner {
+  position: absolute;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-main);
+  opacity: 0.45;
+  pointer-events: none;
+  z-index: 25;
+  line-height: 1;
+}
+
+.dossier-corner.tl { top: 10px; left: 14px; }
+.dossier-corner.tr { top: 10px; right: 14px; }
+.dossier-corner.bl { bottom: 10px; left: 14px; }
+.dossier-corner.br { bottom: 10px; right: 14px; }
+
+.dossier-scroll-area {
+  flex: 1;
+  padding: 40px 56px 48px;
+  overflow-y: auto;
+  position: relative;
+  z-index: 20;
+}
+
+/* Module Header inside Dossier */
+.dossier-module-header {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  margin-bottom: 36px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border-line);
+}
+
+.dossier-module-icon-box {
+  width: 56px;
+  height: 56px;
+  border: 1px solid var(--border-line);
+  background: var(--bg-surface-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-main);
+  flex-shrink: 0;
+  box-shadow: 0 4px 14px rgba(58, 54, 46, 0.07);
+}
+
+.dossier-module-meta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--accent-gold);
+}
+
+.dossier-module-title {
+  font-family: var(--font-serif);
+  font-size: 28px;
+  letter-spacing: 3px;
+  margin-top: 3px;
+  color: var(--text-main);
+}
+
+.dossier-module-tagline {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  margin-top: 4px;
+  color: var(--text-dim);
+  letter-spacing: 0.5px;
+}
+
+/* ---------------------------------------------------------------------
+   4. BOTTOM TELEMETRY FOOTER
+   --------------------------------------------------------------------- */
+.telemetry-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: var(--footer-height);
+  padding: 0 36px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--border-line);
+  background: var(--bg-surface);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.8px;
+  color: var(--text-faint);
+  z-index: 35;
+}
+
+.telemetry-footer-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.telemetry-footer-pip {
+  width: 5px;
+  height: 5px;
+  background: var(--text-main);
+  display: inline-block;
+  transform: rotate(45deg);
+  flex-shrink: 0;
+}
+
+.telemetry-status-group {
+  min-width: 0;
+  flex: 1;
+}
+
+.telemetry-status-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Responsive adjustments */
+@media (max-width: 960px) {
+  .telemetry-hide-tablet {
+    display: none;
+  }
+  .telemetry-header,
+  .telemetry-footer {
+    padding: 0 20px;
+  }
+  .dossier-wrapper {
+    padding: 0 20px;
+    top: 134px;
+    bottom: 48px;
+  }
+  .dossier-scroll-area {
+    padding: 28px 24px 32px;
+  }
+}
+
+@media (max-width: 768px) {
+  .telemetry-header {
+    padding: 0 14px;
+    height: 40px;
+  }
+  .telemetry-brand {
+    font-size: 10px;
+    letter-spacing: 1.2px;
+    gap: 7px;
+    min-width: 0;
+  }
+  .telemetry-brand-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 175px;
+  }
+  .telemetry-hide-mobile {
+    display: none;
+  }
+  .telemetry-controls {
+    gap: 8px;
+    font-size: 9.5px;
+  }
+  .telemetry-clock span {
+    display: none;
+  }
+  .hud-btn {
+    padding: 3px 8px;
+    font-size: 9px;
+    letter-spacing: 0.8px;
+  }
+
+  .dice-node {
+    top: -18px;
+    left: -18px;
+  }
+  .shuriken-node {
+    top: -12px;
+    left: -12px;
+  }
+  .shuriken-top-label {
+    top: 24px;
+    gap: 1px;
+  }
+  .shuriken-top-label-text {
+    font-size: 8px;
+    letter-spacing: 0.7px;
+    padding-bottom: 2px;
+  }
+
+  .dossier-wrapper {
+    padding: 0 10px;
+    top: 146px;
+    bottom: 38px;
+  }
+  .dossier-scroll-area {
+    padding: 20px 16px 28px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .dossier-corner {
+    font-size: 10px;
+  }
+  .dossier-corner.tl { top: 6px; left: 8px; }
+  .dossier-corner.tr { top: 6px; right: 8px; }
+  .dossier-corner.bl { bottom: 6px; left: 8px; }
+  .dossier-corner.br { bottom: 6px; right: 8px; }
+
+  .dossier-module-header {
+    gap: 14px;
+    margin-bottom: 22px;
+    padding-bottom: 16px;
+    align-items: flex-start;
+  }
+  .dossier-module-icon-box {
+    width: 42px;
+    height: 42px;
+  }
+  .dossier-module-meta {
+    font-size: 9.5px;
+    letter-spacing: 1.2px;
+  }
+  .dossier-module-title {
+    font-size: 20px;
+    letter-spacing: 2px;
+  }
+  .dossier-module-tagline {
+    font-size: 11px;
+    line-height: 1.45;
+  }
+
+  .telemetry-footer {
+    padding: 0 14px;
+    height: 32px;
+    font-size: 9px;
+    letter-spacing: 1.1px;
+  }
+  .telemetry-coords-group {
+    display: none;
+  }
+}

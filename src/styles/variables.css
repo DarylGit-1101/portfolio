@@ -1,0 +1,39 @@
+/* =====================================================================
+   DESIGN TOKENS & NIER: AUTOMATA COLOR SYSTEM
+   ===================================================================== */
+:root {
+  /* Core Surfaces */
+  --bg-primary: #ded8c7;
+  --bg-surface: #d4cebc;
+  --bg-surface-light: #eae4d3;
+  --bg-highlight: #f2ede1;
+  --bg-card-hover: #efe9d9;
+
+  /* Typography & Ink Colors */
+  --text-main: #3a362e;
+  --text-dim: #6e685b;
+  --text-faint: #968f80;
+  --text-scorch: #a86226;
+  --text-ink: #1f1c16;
+
+  /* Accents & Borders */
+  --accent-gold: #8c836e;
+  --accent-amber: #d4891c;
+  --accent-danger: #a83232;
+  --accent-success: #2d6a4f;
+  --border-line: rgba(58, 54, 46, 0.2);
+  --border-subtle: rgba(58, 54, 46, 0.12);
+  --border-heavy: #3a362e;
+
+  /* Typography Families */
+  --font-serif: 'Cinzel', Georgia, serif;
+  --font-sans: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'Share Tech Mono', monospace;
+
+  /* Layout Metrics */
+  --header-height: 44px;
+  --footer-height: 36px;
+  --dossier-max-width: 1060px;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+}

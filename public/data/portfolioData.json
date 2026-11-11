@@ -1,0 +1,196 @@
+{
+  "profile": {
+    "name": "DARYL LUNDU MALSON",
+    "codename": "DICEU",
+    "role": "PROGRAMMER",
+    "location": "SABAH, MALAYSIA",
+    "status": "SYSTEM OPERATIONAL // ALL CIRCUITS NOMINAL",
+    "accessKey": "diceu"
+  },
+  "modules": [
+    {
+      "id": "archive",
+      "code": "01",
+      "title": "ARCHIVE",
+      "subtitle": "FEATURED PROJECTS & WORKS",
+      "tagline": "Web Applications, Games, and Interactive Media",
+      "items": []
+    },
+    {
+      "id": "unit_data",
+      "code": "02",
+      "title": "UNIT DATA",
+      "subtitle": "BIOGRAPHY & SPECS",
+      "tagline": "Origin, directives, and creative philosophy.",
+      "biography": [
+        "I am Daryl Lundu Malson, a game developer and creative technologist specializing in tactile gameplay mechanics, responsive UI systems, and procedural animation."
+      ],
+      "specs": [
+        {
+          "label": "CLASSIFICATION",
+          "value": "DEVELOPER // DESIGNER"
+        },
+        {
+          "label": "REGION",
+          "value": "SABAH, BORNEO"
+        },
+        {
+          "label": "DISCIPLINE",
+          "value": "2D/3D INTERACTION"
+        },
+        {
+          "label": "CORE ENGINE",
+          "value": "GODOT & WEBGL"
+        }
+      ]
+    },
+    {
+      "id": "chip_config",
+      "code": "03",
+      "title": "CHIP CONFIG",
+      "subtitle": "SKILL MATRIX",
+      "tagline": "Hardware modules, software proficiencies, and engine mastery.",
+      "categories": [
+        {
+          "category": "GAME ENGINES & PHYSICS",
+          "chips": [
+            {
+              "name": "Godot Engine 4",
+              "value": "92%"
+            },
+            {
+              "name": "Excalibur.js (2D WebGL)",
+              "value": "90%"
+            },
+            {
+              "name": "Arcade & Kinematic Physics",
+              "value": "88%"
+            },
+            {
+              "name": "State Machines & Game Loops",
+              "value": "94%"
+            }
+          ]
+        },
+        {
+          "category": "CREATIVE & GRAPHICS",
+          "chips": [
+            {
+              "name": "Krita",
+              "value": "95%"
+            },
+            {
+              "name": "Aseprite",
+              "value": "90%"
+            },
+            {
+              "name": "HTML5 Canvas 2D Context API",
+              "value": "92%"
+            },
+            {
+              "name": "UI / UX Design Systems",
+              "value": "88%"
+            }
+          ]
+        },
+        {
+          "category": "WEB & ARCHITECTURE",
+          "chips": [
+            {
+              "name": "JavaScript (ESNext) / TypeScript",
+              "value": "92%"
+            },
+            {
+              "name": "React & Component Architecture",
+              "value": "88%"
+            },
+            {
+              "name": "Anime.js / Micro-interactions",
+              "value": "90%"
+            },
+            {
+              "name": "Vite / Modern Toolchains",
+              "value": "94%"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "chronicles",
+      "code": "04",
+      "title": "JOURNEY",
+      "subtitle": "EXPERIENCE & QUESTS",
+      "tagline": "Milestones, career timeline, and shipped achievements.",
+      "quests": [
+        {
+          "year": "2025 - PRESENT",
+          "title": "INDEPENDENT GAME & CREATIVE DEV",
+          "role": "SOLO ARCHITECT",
+          "description": "Developing standalone indie game experiments in Godot 4 and high-performance WebGL platformers with bespoke kinematics and hand-drawn sprite pipelines."
+        },
+        {
+          "year": "2024 - 2025",
+          "title": "FULL-STACK SOFTWARE & UI ENGINEER",
+          "role": "SYSTEMS SPECIALIST",
+          "description": "Engineered enterprise client applications, real-time inventory management dashboards, and responsive web portals with modern JavaScript toolchains."
+        },
+        {
+          "year": "2022 - 2024",
+          "title": "COMPUTER SCIENCE & DIGITAL ARTS",
+          "role": "STUDY & FOUNDATIONS",
+          "description": "Deep focus on data structures, game math, raster graphics, 2D animation, and modern software design patterns."
+        }
+      ]
+    },
+    {
+      "id": "arsenal",
+      "code": "05",
+      "title": "ARSENAL",
+      "subtitle": "CREATIVE WORKBENCH",
+      "tagline": "Hardware, software instruments, and creative workstations.",
+      "gear": [
+        {
+          "title": "KRITA STUDIO",
+          "desc": "Primary illustration and onion-skin animation workspace."
+        },
+        {
+          "title": "GODOT 4.3 LTS",
+          "desc": "Primary 2D/3D standalone engine for desktop & mobile releases."
+        },
+        {
+          "title": "VS CODE & VITE",
+          "desc": "Ultra-fast web development environment and hot-module replacement."
+        },
+        {
+          "title": "CUSTOM MECHANICAL RIG",
+          "desc": "Tactile input hardware and dual-calibrated color monitors."
+        }
+      ]
+    },
+    {
+      "id": "transmissions",
+      "code": "06",
+      "title": "TRANSMISSIONS",
+      "subtitle": "COMMUNICATION UPLINK",
+      "tagline": "Direct frequencies, code repositories, and professional channels.",
+      "channels": [
+        {
+          "label": "EMAIL PROTOCOL",
+          "address": "darylilol00@gmail.com",
+          "href": "mailto:darylilol00@gmail.com"
+        },
+        {
+          "label": "GITHUB REPOSITORY",
+          "address": "https://github.com/DarylGit-1101",
+          "href": "https://github.com/DarylGit-1101"
+        },
+        {
+          "label": "PROFESSIONAL NETWORK",
+          "address": "LinkedIn Connect",
+          "href": "https://www.linkedin.com/in/daryl-lundu/"
+        }
+      ]
+    }
+  ]
+}
