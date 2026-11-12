@@ -22,8 +22,16 @@ export function ChipConfigModule({ module, inkState }) {
                 className="chip-item"
               >
                 <div className="chip-item-top">
-                  <span className="chip-item-name">{item.name}</span>
-                  <span className="chip-item-val">{item.value}</span>
+                  <span className="chip-item-name">
+                    <LimeInkText state={inkState} delayMin={300} delayMax={850}>
+                      {item.name}
+                    </LimeInkText>
+                  </span>
+                  <span className="chip-item-val">
+                    <LimeInkText state={inkState} delayMin={400} delayMax={950}>
+                      {item.value}
+                    </LimeInkText>
+                  </span>
                 </div>
                 <div className="chip-bar-track">
                   <div className="chip-bar-fill" style={{ width: item.value }} />

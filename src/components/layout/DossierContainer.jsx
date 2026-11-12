@@ -1,7 +1,9 @@
 import React from 'react';
 import { PodLaserSurface } from '../PodLaserSurface.jsx';
-import { LimeInkText } from '../LimeInkText.jsx';
-import { getModuleIcon } from '../Icons.jsx';
+import { LimeInkText, LimeInkBlock } from '../LimeInkText.jsx';
+import { getModuleIcon, ExternalLinkIcon } from '../Icons.jsx';
+import { sound } from '../../utils/audio.js';
+import { getNormalizedProjectBlocks } from '../../utils/arrayUtils.js';
 import { ArchiveModule } from '../modules/ArchiveModule.jsx';
 import { UnitDataModule } from '../modules/UnitDataModule.jsx';
 import { ChipConfigModule } from '../modules/ChipConfigModule.jsx';
@@ -18,22 +20,215 @@ const MODULE_VIEWS = {
   transmissions: TransmissionsModule
 };
 
-export function DossierContainer({ activeModule, laserState, inkState }) {
+function DossierCorners() {
+  return (
+    <>
+      <div className="dossier-corner tl">┌</div>
+      <div className="dossier-corner tr">┐</div>
+      <div className="dossier-corner bl">└</div>
+      <div className="dossier-corner br">┘</div>
+    </>
+  );
+}
+
+export function DossierContainer({
+  activeModule,
+  laserState,
+  inkState,
+  isSplitMode = false,
+  selectedProjectIndex = null,
+  detailLaserState = 'settled',
+  detailInkState = 'revealing',
+  onSelectProject
+}) {
   if (!activeModule) return null;
 
   const ModuleView = MODULE_VIEWS[activeModule.id];
+  const selectedProject =
+    isSplitMode && activeModule.items ? activeModule.items[selectedProjectIndex] : null;
+  const projectBlocks = selectedProject ? getNormalizedProjectBlocks(selectedProject) : [];
 
   return (
-    <div className="dossier-wrapper">
+    <div className={`dossier-wrapper ${isSplitMode ? 'is-split-mode' : ''}`}>
+      {/* Left Side Expanded Project Inspection View (Synchronized with Pod Laser & LimeInk) */}
+      {isSplitMode && selectedProject && (
+        <div className="dossier-detail-frame">
+          <PodLaserSurface state={detailLaserState} />
+          <DossierCorners />
+
+          <div
+            key={`detail-${selectedProjectIndex}`}
+            className={`dossier-scroll-area archive-detail-scroll content-decloak-container ${
+              detailLaserState === 'scanning' ? 'content-decloak-scanning' : ''
+            }`}
+          >
+            <div className="archive-detail-header">
+              <div className="archive-detail-meta-row">
+                <span className="archive-detail-code">
+                  <LimeInkText state={detailInkState} delayMin={100} delayMax={380}>
+                    {`RECORD // [${String(selectedProjectIndex + 1).padStart(2, '0')}] // ${selectedProject.category}`}
+                  </LimeInkText>
+                </span>
+                {selectedProject.stats && (
+                  <LimeInkBlock
+                    state={detailInkState}
+                    delayMin={220}
+                    delayMax={560}
+                    className="archive-card-stats"
+                  >
+                    {selectedProject.stats}
+                  </LimeInkBlock>
+                )}
+              </div>
+
+              <h2 className="archive-detail-title">
+                <LimeInkText state={detailInkState} delayMin={180} delayMax={520}>
+                  {selectedProject.title}
+                </LimeInkText>
+              </h2>
+
+              {selectedProject.links?.length > 0 && (
+                <div className="archive-detail-links">
+                  {selectedProject.links.map((lnk, lIdx) => (
+                    <LimeInkBlock
+                      key={lIdx}
+                      state={detailInkState}
+                      delayMin={280 + lIdx * 70}
+                      delayMax={680 + lIdx * 90}
+                    >
+                      <a
+                        href={lnk.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        onMouseEnter={() => sound.playHover()}
+                        className="archive-detail-link-btn"
+                      >
+                        <span>{lnk.label}</span>
+                        <ExternalLinkIcon size={11} />
+                      </a>
+                    </LimeInkBlock>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <div className="archive-detail-body">
+              {selectedProject.description && (
+                <p className="archive-detail-desc">
+                  <LimeInkText state={detailInkState} delayMin={260} delayMax={720}>
+                    {selectedProject.description}
+                  </LimeInkText>
+                </p>
+              )}
+
+              {/* Modular Content Blocks (Long Text & Image + Text Sections) */}
+              {projectBlocks.length > 0 && (
+                <div className="archive-detail-blocks">
+                  {projectBlocks.map((block, bIdx) => {
+                    const isImageBlock = block.type === 'image_text' && block.imageUrl;
+                    const layoutMode = block.layout || 'stack';
+                    const baseDelay = 320 + bIdx * 90;
+
+                    return (
+                      <section
+                        key={bIdx}
+                        className={`archive-detail-block ${
+                          isImageBlock ? `block-layout-${layoutMode}` : 'block-text-only'
+                        }`}
+                      >
+                        {block.heading && (
+                          <h3 className="archive-detail-block-heading">
+                            <span className="archive-detail-block-pip" />
+                            <span>
+                              <LimeInkText
+                                state={detailInkState}
+                                delayMin={baseDelay}
+                                delayMax={baseDelay + 350}
+                              >
+                                {block.heading}
+                              </LimeInkText>
+                            </span>
+                          </h3>
+                        )}
+
+                        <div className="archive-detail-block-inner">
+                          {isImageBlock && (
+                            <LimeInkBlock
+                              state={detailInkState}
+                              delayMin={baseDelay + 60}
+                              delayMax={baseDelay + 480}
+                              className="archive-detail-figure"
+                            >
+                              <div className="archive-detail-img-wrap">
+                                <img
+                                  src={block.imageUrl}
+                                  alt={
+                                    block.caption ||
+                                    block.heading ||
+                                    `${selectedProject.title} figure ${bIdx + 1}`
+                                  }
+                                  className="archive-detail-img"
+                                />
+                              </div>
+                              {block.caption && (
+                                <div className="archive-detail-caption">
+                                  <span>FIG [{String(bIdx + 1).padStart(2, '0')}]</span>
+                                  <span>{block.caption}</span>
+                                </div>
+                              )}
+                            </LimeInkBlock>
+                          )}
+
+                          {block.content && (
+                            <div className="archive-detail-extended">
+                              <LimeInkText
+                                state={detailInkState}
+                                delayMin={baseDelay + 80}
+                                delayMax={baseDelay + 680}
+                              >
+                                {block.content}
+                              </LimeInkText>
+                            </div>
+                          )}
+                        </div>
+                      </section>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+
+            {selectedProject.tech?.length > 0 && (
+              <div className="archive-detail-tech-section">
+                <div className="archive-detail-label">
+                  <LimeInkText state={detailInkState} delayMin={420} delayMax={820}>
+                    INSTALLED MODULES &amp; TECH STACK
+                  </LimeInkText>
+                </div>
+                <div className="archive-tech-tags">
+                  {selectedProject.tech.map((t, tIdx) => (
+                    <LimeInkBlock
+                      key={t}
+                      state={detailInkState}
+                      delayMin={460 + tIdx * 40}
+                      delayMax={950 + tIdx * 60}
+                      className="archive-tech-tag"
+                    >
+                      {t}
+                    </LimeInkBlock>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Main Dossier Frame (Centered in normal mode, narrowed & moved to furthest right in Split Mode) */}
       <div className="dossier-frame">
         {/* NieR: Automata Pod Optical Laser Scan & De-Cloak */}
         <PodLaserSurface state={laserState} />
-
-        {/* Fixed Tactical Corner Brackets */}
-        <div className="dossier-corner tl">┌</div>
-        <div className="dossier-corner tr">┐</div>
-        <div className="dossier-corner bl">└</div>
-        <div className="dossier-corner br">┘</div>
+        <DossierCorners />
 
         {/* Scrollable Content Area Synchronized with Laser Sweep */}
         <div
@@ -42,35 +237,58 @@ export function DossierContainer({ activeModule, laserState, inkState }) {
             laserState === 'scanning' ? 'content-decloak-scanning' : ''
           }`}
         >
-          {/* Active Section Header */}
-          <div className="dossier-module-header">
-            <div className="dossier-module-icon-box">
-              {getModuleIcon(activeModule.id, { size: 26 })}
-            </div>
-
-            <div>
-              <div className="dossier-module-meta">
-                <LimeInkText state={inkState} delayMin={100} delayMax={400}>
-                  {`SYSTEM // [${activeModule.code}] // ${activeModule.subtitle}`}
-                </LimeInkText>
+          {/* Active Section Header (Compact in Split Mode) */}
+          {!isSplitMode ? (
+            <div className="dossier-module-header">
+              <div className="dossier-module-icon-box">
+                {getModuleIcon(activeModule.id, { size: 26 })}
               </div>
 
-              <h2 className="dossier-module-title">
-                <LimeInkText state={inkState} delayMin={200} delayMax={600}>
-                  {activeModule.title}
-                </LimeInkText>
-              </h2>
+              <div>
+                <div className="dossier-module-meta">
+                  <LimeInkText state={inkState} delayMin={100} delayMax={400}>
+                    {`SYSTEM // [${activeModule.code}] // ${activeModule.subtitle}`}
+                  </LimeInkText>
+                </div>
 
-              <p className="dossier-module-tagline">
-                <LimeInkText state={inkState} delayMin={300} delayMax={800}>
-                  {activeModule.tagline}
-                </LimeInkText>
-              </p>
+                <h2 className="dossier-module-title">
+                  <LimeInkText state={inkState} delayMin={200} delayMax={600}>
+                    {activeModule.title}
+                  </LimeInkText>
+                </h2>
+
+                <p className="dossier-module-tagline">
+                  <LimeInkText state={inkState} delayMin={300} delayMax={800}>
+                    {activeModule.tagline}
+                  </LimeInkText>
+                </p>
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="dossier-split-sidebar-header">
+              <span className="dossier-split-sidebar-code">
+                <LimeInkText state={inkState} delayMin={120} delayMax={400}>
+                  {`[${activeModule.code}] // ${activeModule.title} INDEX`}
+                </LimeInkText>
+              </span>
+              <span className="dossier-split-sidebar-count">
+                <LimeInkText state={inkState} delayMin={180} delayMax={480}>
+                  {`${String(activeModule.items?.length || 0).padStart(2, '0')} RECORDS`}
+                </LimeInkText>
+              </span>
+            </div>
+          )}
 
           {/* Active Module View */}
-          {ModuleView && <ModuleView module={activeModule} inkState={inkState} />}
+          {ModuleView && (
+            <ModuleView
+              module={activeModule}
+              inkState={inkState}
+              isSplitMode={isSplitMode}
+              selectedProjectIndex={selectedProjectIndex}
+              onSelectProject={onSelectProject}
+            />
+          )}
         </div>
       </div>
     </div>

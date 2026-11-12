@@ -223,13 +223,20 @@
 
 .shuriken-reticle-svg {
   position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   pointer-events: none;
   opacity: 0;
+  transform-origin: center center;
 }
 
 .shuriken-blade-svg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transform-origin: center center;
-  will-change: transform;
 }
 
 .dice-reset-tooltip {
@@ -249,6 +256,45 @@
   box-shadow: 0 6px 18px rgba(58, 54, 46, 0.15);
   z-index: 70;
   animation: fadeInSlide 0.2s var(--ease-out-expo) forwards;
+}
+
+/* Circular Close (X) Node above highest star in Split Mode */
+.split-close-node {
+  position: absolute;
+  top: -17px;
+  left: -17px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--border-heavy);
+  background: var(--bg-surface-light);
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 60;
+  box-shadow: 0 4px 14px rgba(58, 54, 46, 0.14);
+  transition:
+    transform 0.85s var(--ease-out-expo),
+    opacity 0.3s ease,
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.split-close-node.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.split-close-node:hover {
+  background: var(--text-main);
+  color: var(--bg-primary);
+  border-color: var(--text-main);
 }
 
 .shuriken-node {
@@ -558,6 +604,34 @@
   padding: 0 48px;
   z-index: 20;
   pointer-events: none;
+  transition:
+    top 0.65s var(--ease-out-expo),
+    bottom 0.65s var(--ease-out-expo),
+    padding 0.65s var(--ease-out-expo);
+}
+
+/* Split Mode: taller height (stars moved to vertical spine) + Left Detail & Right Narrow List */
+.dossier-wrapper.is-split-mode {
+  --split-right-width: clamp(320px, 28vw, 400px);
+  --split-spine-gap: 108px;
+  top: 64px;
+  bottom: 52px;
+  justify-content: space-between;
+  padding: 0 36px;
+}
+
+.dossier-detail-frame {
+  width: calc(100% - var(--split-right-width) - var(--split-spine-gap));
+  height: 100%;
+  border: 1px solid var(--border-line);
+  background: var(--bg-surface);
+  box-shadow: 0 12px 40px rgba(58, 54, 46, 0.08);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  pointer-events: auto;
+  animation: fadeInSlide 0.45s var(--ease-out-expo) forwards;
 }
 
 .dossier-frame {
@@ -572,6 +646,42 @@
   flex-direction: column;
   position: relative;
   pointer-events: auto;
+  transition:
+    width 0.65s var(--ease-out-expo),
+    max-width 0.65s var(--ease-out-expo);
+}
+
+.dossier-wrapper.is-split-mode .dossier-frame {
+  width: var(--split-right-width);
+  max-width: var(--split-right-width);
+  flex-shrink: 0;
+}
+
+.dossier-wrapper.is-split-mode .dossier-frame .dossier-scroll-area {
+  padding: 20px 18px 26px;
+}
+
+.dossier-split-sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--border-line);
+  font-family: var(--font-mono);
+}
+
+.dossier-split-sidebar-code {
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  color: var(--accent-gold);
+  font-weight: 700;
+}
+
+.dossier-split-sidebar-count {
+  font-size: 9.5px;
+  letter-spacing: 1.2px;
+  color: var(--text-dim);
 }
 
 /* Fixed Corner Tactical Brackets on the Frame */
@@ -707,6 +817,9 @@
     top: 134px;
     bottom: 48px;
   }
+  .dossier-wrapper.is-split-mode {
+    padding: 0 20px;
+  }
   .dossier-scroll-area {
     padding: 28px 24px 32px;
   }
@@ -767,6 +880,22 @@
     padding: 0 10px;
     top: 146px;
     bottom: 38px;
+  }
+  .dossier-wrapper.is-split-mode {
+    top: 146px;
+    bottom: 38px;
+    padding: 0 10px;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .dossier-detail-frame {
+    width: 100%;
+    height: 62%;
+  }
+  .dossier-wrapper.is-split-mode .dossier-frame {
+    width: 100%;
+    max-width: 100%;
+    height: 38%;
   }
   .dossier-scroll-area {
     padding: 20px 16px 28px;

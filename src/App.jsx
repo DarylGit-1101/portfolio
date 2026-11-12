@@ -17,10 +17,16 @@ export function App() {
   const { isEditorOpen, pipClicks, handlePipClick, closeEditor } = useSecretAccess();
   const {
     mode,
+    navMode,
     activeModuleId,
     laserState,
     inkState,
+    selectedProjectIndex,
+    detailLaserState,
+    detailInkState,
     selectModule,
+    selectProject,
+    closeProject,
     resetToCore
   } = useLaserTransition();
 
@@ -40,6 +46,14 @@ export function App() {
   }
 
   const activeModule = portfolioData.modules.find((m) => m.id === activeModuleId);
+  const isArchiveSplit =
+    mode === 'top' &&
+    activeModuleId === 'archive' &&
+    selectedProjectIndex !== null &&
+    Boolean(activeModule?.items?.[selectedProjectIndex]);
+
+  // ConstellationNav exits split mode immediately if returning to core ('circle')
+  const isNavSplit = isArchiveSplit && navMode === 'top';
 
   return (
     <div className="portfolio-shell">
@@ -53,10 +67,12 @@ export function App() {
 
       <ConstellationNav
         modules={portfolioData.modules}
-        mode={mode}
+        mode={navMode}
+        isSplitMode={isNavSplit}
         activeModuleId={activeModuleId}
         onSelectModule={selectModule}
         onResetToCore={resetToCore}
+        onCloseSplit={closeProject}
       />
 
       {mode === 'top' && activeModule && (
@@ -64,16 +80,21 @@ export function App() {
           activeModule={activeModule}
           laserState={laserState}
           inkState={inkState}
+          isSplitMode={isArchiveSplit}
+          selectedProjectIndex={selectedProjectIndex}
+          detailLaserState={detailLaserState}
+          detailInkState={detailInkState}
+          onSelectProject={selectProject}
         />
       )}
 
       <DiceuCompanion
-        mode={mode}
+        mode={navMode}
         activeModule={activeModule}
         laserState={laserState}
       />
 
-      <TelemetryFooter mode={mode} profile={portfolioData.profile} />
+      <TelemetryFooter mode={navMode} profile={portfolioData.profile} />
     </div>
   );
 }

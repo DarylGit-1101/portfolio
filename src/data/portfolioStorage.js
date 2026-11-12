@@ -1,6 +1,6 @@
 import DEFAULT_DATA from './portfolioData.json';
 
-const STORAGE_KEY = 'diceu_portfolio_data';
+const STORAGE_KEY = 'diceu_portfolio_data_v2';
 const UPDATE_EVENT = 'portfolio-data-updated';
 
 async function notifyAndPersistToDisk(data) {

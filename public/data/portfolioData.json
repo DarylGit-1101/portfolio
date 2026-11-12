@@ -2,7 +2,7 @@
   "profile": {
     "name": "DARYL LUNDU MALSON",
     "codename": "DICEU",
-    "role": "PROGRAMMER",
+    "role": "FULL-STACK DEVELOPER & SOFTWARE ENGINEER",
     "location": "SABAH, MALAYSIA",
     "status": "SYSTEM OPERATIONAL // ALL CIRCUITS NOMINAL",
     "accessKey": "diceu"
@@ -13,34 +13,184 @@
       "code": "01",
       "title": "ARCHIVE",
       "subtitle": "FEATURED PROJECTS & WORKS",
-      "tagline": "Web Applications, Games, and Interactive Media",
-      "items": []
+      "tagline": "Web Applications, Enterprise Systems, Games, and Interactive Media",
+      "items": [
+        {
+          "title": "DICEU VTT — MULTIPLAYER VIRTUAL TABLETOP",
+          "category": "MULTIPLAYER VTT // GODOT 4 ENGINE",
+          "stats": "2026 // HOST-CLIENT ENET",
+          "description": "Modular multiplayer virtual tabletop architected in Godot 4 with host/client ENet networking, server-authoritative board & 3D dice synchronization, chunked map streaming, and multi-geometry grid systems.",
+          "blocks": [
+            {
+              "type": "text",
+              "heading": "TECHNICAL BREAKDOWN & ARCHITECTURE",
+              "content": "• Architected separated data, service, presentation, UI, and world layers with dedicated managers for campaigns, maps, grids, game state, networking, and synchronization.\n• Implemented multiplayer networking using Godot ENet with host/client architecture, room-code authentication, admin/player roles, peer lifecycle management, and RPC communication.\n• Developed server-authoritative board synchronization supporting late-joining clients and JSON-based local campaign persistence.\n• Built map asset management supporting PNG, JPG, JPEG, and WebP with 512×512 chunk loading and compressed chunk-based network transfer.\n• Engineered a unified grid system (square, pointy-hex, flat-hex), tactical measurement tools (distance, circle, triangle, rectangle, ping), networked 3D physics dice with transform-frame replay, and a dynamic initiative tracker."
+            }
+          ],
+          "tech": [
+            "Godot 4",
+            "GDScript",
+            "ENet Multiplayer",
+            "RPC / Server-Authoritative",
+            "3D Physics",
+            "JSON State"
+          ],
+          "links": []
+        },
+        {
+          "title": "ARTLAS — CROSS-PLATFORM CREATOR PLATFORM",
+          "category": "CROSS-PLATFORM APP // FLUTTER & SUPABASE",
+          "stats": "2026 // CROSS-PLATFORM",
+          "description": "Cross-platform creator application featuring a highly responsive Flutter frontend, decoupled presentation and canvas theme layers, and a secure Supabase backend pipeline.",
+          "blocks": [
+            {
+              "type": "text",
+              "heading": "TECHNICAL BREAKDOWN & ARCHITECTURE",
+              "content": "• Architected a responsive frontend navbar and scaffold layout using Flutter and Provider state management with conditional breakpoints down to ultra-compact mobile viewports.\n• Designed clean component architecture isolating presentation layers from underlying theme canvas states so transparent layout overlays pass seamlessly through parent scaffolds.\n• Implemented secure development protocols using environment variable configurations (.env) integrated with a Supabase backend and Git tracking safety pipelines."
+            }
+          ],
+          "tech": [
+            "Flutter",
+            "Dart",
+            "Provider",
+            "Supabase",
+            "Responsive UI"
+          ],
+          "links": []
+        },
+        {
+          "title": "EPOSCLIENT3 — REGIONAL UTILITY POS SYSTEM",
+          "category": "MISSION-CRITICAL POS // JABATAN AIR NEGERI SABAH",
+          "stats": "2024 – 2025 // PRODUCTION",
+          "description": "Mission-critical desktop and embedded payment point-of-sale system deployed across multiple municipal regions for Jabatan Air Negeri Sabah (JANS).",
+          "blocks": [
+            {
+              "type": "text",
+              "heading": "TECHNICAL BREAKDOWN & ARCHITECTURE",
+              "content": "• Designed and engineered the core functional architecture of the regional payment application deployed across JANS municipal counters.\n• Optimized embedded SQLite databases to ensure high transaction throughput, resilient local storage caching, and reliable offline-first data synchronization."
+            }
+          ],
+          "tech": [
+            "Desktop / Embedded POS",
+            "SQLite",
+            "Offline-First Sync",
+            "Payment Systems"
+          ],
+          "links": []
+        },
+        {
+          "title": "WEBUBIS2 — ENTERPRISE BILLING ECOSYSTEM",
+          "category": "ENTERPRISE WEB PORTAL // JABATAN AIR NEGERI SABAH",
+          "stats": "2024 – 2025 // ENTERPRISE",
+          "description": "High-performance enterprise billing portal modules and refactored administrative workflows for Jabatan Air Negeri Sabah (JANS WebUBIS2).",
+          "blocks": [
+            {
+              "type": "text",
+              "heading": "TECHNICAL BREAKDOWN & ARCHITECTURE",
+              "content": "• Spearheaded the development of modern feature pipelines and web modules for the state utility billing portal (JANS WebUBIS2).\n• Refactored legacy workflows into responsive modules, significantly reducing web-side query latency and enhancing scalability for administrative operations."
+            }
+          ],
+          "tech": [
+            "Full-Stack Web",
+            "Spring Boot / Node.js",
+            "SQL Optimization",
+            "Enterprise Portal"
+          ],
+          "links": []
+        },
+        {
+          "title": "SABAHPAY API SECURE GATEWAY",
+          "category": "FINTECH API GATEWAY // JABATAN AIR NEGERI SABAH",
+          "stats": "2024 – 2025 // SECURITY & API",
+          "description": "Hardened enterprise API receiver gateway bridging Jabatan Air Negeri Sabah core billing servers with the SabahPay financial ecosystem.",
+          "blocks": [
+            {
+              "type": "text",
+              "heading": "TECHNICAL BREAKDOWN & ARCHITECTURE",
+              "content": "• Architected and hardened the enterprise API receiver gateway connecting core state utility billing servers with the SabahPay payment ecosystem.\n• Rewrote communication protocols to enforce stringent payload verification, cryptographic handshake integrity, and defense against vector vulnerabilities."
+            }
+          ],
+          "tech": [
+            "REST API Gateway",
+            "Cryptographic Handshake",
+            "Payload Verification",
+            "Backend Security"
+          ],
+          "links": []
+        },
+        {
+          "title": "TAKARAHOLDINGS E-COMMERCE PLATFORM",
+          "category": "CORPORATE E-COMMERCE // WEB ARCHITECTURE",
+          "stats": "2023 // LIVE DEPLOYMENT",
+          "description": "Architectural redesign and frontend modernization of the Takara Holdings corporate e-commerce platform from conception to production deployment.",
+          "blocks": [
+            {
+              "type": "text",
+              "heading": "TECHNICAL BREAKDOWN & ARCHITECTURE",
+              "content": "• Spearheaded the end-to-end redesign and frontend modernization of the corporate e-commerce web platform.\n• Orchestrated a decoupled web structure combining a custom Elementor frontend interface with a hardened, performance-optimized WordPress backend to improve asset loading speeds and conversion UX."
+            }
+          ],
+          "tech": [
+            "WordPress",
+            "Elementor",
+            "Frontend Optimization",
+            "E-Commerce UX"
+          ],
+          "links": [
+            {
+              "label": "LIVE SITE",
+              "url": "https://takaraholdings.com"
+            }
+          ]
+        },
+        {
+          "title": "METAPACO 2 HUB",
+          "category": "VR & 3D SIMULATION // INTERACTIVE MEDIA",
+          "stats": "2023 // VR & 3D HUB",
+          "description": "Co-engineered immersive virtual reality and interactive 3D hub environments with custom spatial camera systems and real-time simulation logic.",
+          "blocks": [
+            {
+              "type": "text",
+              "heading": "TECHNICAL BREAKDOWN & ARCHITECTURE",
+              "content": "• Co-engineered immersive VR and interactive 3D hub environments within a studio production pipeline.\n• Programmed optimized camera scripts, interactive spatial loops, and custom logic functions for smooth real-time simulation performance."
+            }
+          ],
+          "tech": [
+            "VR Frameworks",
+            "Unity / Unreal",
+            "3D Spatial Logic",
+            "C# / C++"
+          ],
+          "links": []
+        }
+      ]
     },
     {
       "id": "unit_data",
       "code": "02",
       "title": "UNIT DATA",
       "subtitle": "BIOGRAPHY & SPECS",
-      "tagline": "Origin, directives, and creative philosophy.",
+      "tagline": "Origin, directives, and engineering philosophy.",
       "biography": [
-        "I am Daryl Lundu Malson, a game developer and creative technologist specializing in tactile gameplay mechanics, responsive UI systems, and procedural animation."
+        "I am Daryl Lundu Malson, a Full-Stack Developer and Software Engineer specializing in scalable backend architectures, responsive frontend interfaces, and clean, decoupled system design. From RESTful services in Spring Boot and Node.js to reactive web applications and enterprise portals, I turn complex operational requirements into maintainable, high-performance software.",
+        "Beyond enterprise and web engineering, I bridge rigorous systems architecture with interactive media and game development—building across Godot 4, Unity, and Unreal Engine with C++ and C#, while crafting 2D digital illustrations and frame-by-frame pixel animations in Krita and Aseprite."
       ],
       "specs": [
         {
           "label": "CLASSIFICATION",
-          "value": "DEVELOPER // DESIGNER"
+          "value": "FULL-STACK // SOFTWARE ENGINEER"
         },
         {
           "label": "REGION",
           "value": "SABAH, BORNEO"
         },
         {
-          "label": "DISCIPLINE",
-          "value": "2D/3D INTERACTION"
+          "label": "CORE STACK",
+          "value": "REACT, SPRING BOOT, NODE & SQL"
         },
         {
-          "label": "CORE ENGINE",
-          "value": "GODOT & WEBGL"
+          "label": "INTERACTIVE & ART",
+          "value": "GODOT, UNITY, UNREAL // 2D ART"
         }
       ]
     },
@@ -49,52 +199,35 @@
       "code": "03",
       "title": "CHIP CONFIG",
       "subtitle": "SKILL MATRIX",
-      "tagline": "Hardware modules, software proficiencies, and engine mastery.",
+      "tagline": "Core engineering modules, software proficiencies, and engine mastery.",
       "categories": [
         {
-          "category": "GAME ENGINES & PHYSICS",
+          "category": "BACKEND & SYSTEMS ARCHITECTURE",
           "chips": [
             {
-              "name": "Godot Engine 4",
-              "value": "92%"
-            },
-            {
-              "name": "Excalibur.js (2D WebGL)",
+              "name": "Spring Boot (Java)",
               "value": "90%"
             },
             {
-              "name": "Arcade & Kinematic Physics",
+              "name": "Node.js, Supabase & REST APIs",
+              "value": "90%"
+            },
+            {
+              "name": "SQL & SQLite Database Systems",
+              "value": "92%"
+            },
+            {
+              "name": "C++ & C# Systems Programming",
               "value": "88%"
             },
             {
-              "name": "State Machines & Game Loops",
-              "value": "94%"
+              "name": "Git & Server Administration",
+              "value": "92%"
             }
           ]
         },
         {
-          "category": "CREATIVE & GRAPHICS",
-          "chips": [
-            {
-              "name": "Krita",
-              "value": "95%"
-            },
-            {
-              "name": "Aseprite",
-              "value": "90%"
-            },
-            {
-              "name": "HTML5 Canvas 2D Context API",
-              "value": "92%"
-            },
-            {
-              "name": "UI / UX Design Systems",
-              "value": "88%"
-            }
-          ]
-        },
-        {
-          "category": "WEB & ARCHITECTURE",
+          "category": "WEB & CROSS-PLATFORM FRONTEND",
           "chips": [
             {
               "name": "JavaScript (ESNext) / TypeScript",
@@ -102,15 +235,53 @@
             },
             {
               "name": "React & Component Architecture",
-              "value": "88%"
-            },
-            {
-              "name": "Anime.js / Micro-interactions",
               "value": "90%"
             },
             {
-              "name": "Vite / Modern Toolchains",
+              "name": "Flutter & Provider State",
+              "value": "88%"
+            },
+            {
+              "name": "Vite & Modern Web Toolchains",
               "value": "94%"
+            }
+          ]
+        },
+        {
+          "category": "GAME ENGINES & INTERACTIVE",
+          "chips": [
+            {
+              "name": "Godot 4 (GDScript & ENet)",
+              "value": "92%"
+            },
+            {
+              "name": "Unity Engine (C# & VR)",
+              "value": "86%"
+            },
+            {
+              "name": "Unreal Engine (C++ / Blueprints)",
+              "value": "82%"
+            },
+            {
+              "name": "State Machines & Game Physics",
+              "value": "90%"
+            }
+          ]
+        },
+        {
+          "category": "CREATIVE & CMS PLATFORMS",
+          "chips": [
+            {
+              "name": "WordPress & Elementor",
+              "value": "92%"
+            },
+            {
+              "name": "Krita (2D Illustration & Animation)",
+              "value": "95%"
+            },
+            {
+              "name": "Aseprite (Pixel Art & Sprites)",
+              "value": "90%"
             }
           ]
         }
@@ -121,25 +292,37 @@
       "code": "04",
       "title": "JOURNEY",
       "subtitle": "EXPERIENCE & QUESTS",
-      "tagline": "Milestones, career timeline, and shipped achievements.",
+      "tagline": "Career milestones, operational deployments, and academic foundations.",
       "quests": [
         {
-          "year": "2025 - PRESENT",
-          "title": "INDEPENDENT GAME & CREATIVE DEV",
-          "role": "SOLO ARCHITECT",
-          "description": "Developing standalone indie game experiments in Godot 4 and high-performance WebGL platformers with bespoke kinematics and hand-drawn sprite pipelines."
+          "year": "OCT 2026 - APR 2027",
+          "title": "FELO SMJ 5.0 // YAYASAN SABAH GROUP",
+          "role": "SMJ FELLOW & PROGRAMMER",
+          "description": "Selected as a Sabah Maju Jaya (SMJ 5.0) Fellow assigned to Yayasan Sabah Group as a Programmer—combining software development and technical engineering with organizational leadership, team collaboration, and strategic management."
         },
         {
-          "year": "2024 - 2025",
-          "title": "FULL-STACK SOFTWARE & UI ENGINEER",
-          "role": "SYSTEMS SPECIALIST",
-          "description": "Engineered enterprise client applications, real-time inventory management dashboards, and responsive web portals with modern JavaScript toolchains."
+          "year": "MAY 2025 - OCT 2026",
+          "title": "OPEN UNIVERSITY MALAYSIA (OUM)",
+          "role": "POSTGRADUATE DIPLOMA IN TEACHING",
+          "description": "Completed postgraduate pedagogical training focused on instructional design, educational methodology, structured communication, and technical mentorship."
         },
         {
-          "year": "2022 - 2024",
-          "title": "COMPUTER SCIENCE & DIGITAL ARTS",
-          "role": "STUDY & FOUNDATIONS",
-          "description": "Deep focus on data structures, game math, raster graphics, 2D animation, and modern software design patterns."
+          "year": "MAY 2024 - AUG 2025",
+          "title": "SINATECH // JABATAN AIR NEGERI SABAH",
+          "role": "FULL-STACK & SYSTEMS ENGINEER",
+          "description": "Engineered full-stack web applications and enterprise systems using Spring Boot, Node.js, React, and SQL. Led database administration, API integrations, server management, and digital portal operations supporting Jabatan Air Negeri Sabah."
+        },
+        {
+          "year": "MAR 2023 - SEP 2023",
+          "title": "BIG CORRIDOR (BIG3MEDIA // CRAVEFX)",
+          "role": "INTERACTIVE & FRONTEND DEVELOPER INTERN",
+          "description": "Developed interactive prototypes, production tooling, and game experiences across Unity and Unreal Engine (C#/C++), and engineered the production frontend for the Takara Holdings / Adore SG web platform."
+        },
+        {
+          "year": "2019 - 2023",
+          "title": "UNIVERSITI MALAYSIA SABAH (UMS)",
+          "role": "B.COMP.SC (SOFTWARE ENGINEERING) HONS.",
+          "description": "Earned a Bachelor of Computer Science (Software Engineering) with Honours, building a rigorous foundation in software architecture, algorithms, data structures, relational database design, and full-stack development."
         }
       ]
     },
@@ -148,23 +331,31 @@
       "code": "05",
       "title": "ARSENAL",
       "subtitle": "CREATIVE WORKBENCH",
-      "tagline": "Hardware, software instruments, and creative workstations.",
+      "tagline": "Development environments, backend engines, and creative instruments.",
       "gear": [
         {
-          "title": "KRITA STUDIO",
-          "desc": "Primary illustration and onion-skin animation workspace."
+          "title": "VS CODE & INTELLIJ IDEA",
+          "desc": "Primary full-stack and enterprise Java/TypeScript development environments."
         },
         {
-          "title": "GODOT 4.3 LTS",
-          "desc": "Primary 2D/3D standalone engine for desktop & mobile releases."
+          "title": "SPRING BOOT, NODE & SQL",
+          "desc": "Core backend framework, REST API, and relational database architecture stack."
         },
         {
-          "title": "VS CODE & VITE",
-          "desc": "Ultra-fast web development environment and hot-module replacement."
+          "title": "REACT, FLUTTER & GIT",
+          "desc": "Modern web and cross-platform frontend component pipeline and version control."
         },
         {
-          "title": "CUSTOM MECHANICAL RIG",
-          "desc": "Tactile input hardware and dual-calibrated color monitors."
+          "title": "WORDPRESS & ELEMENTOR",
+          "desc": "Rapid CMS deployment, custom theme integration, and visual web publishing suite."
+        },
+        {
+          "title": "GODOT 4, UNITY & UNREAL",
+          "desc": "Multi-engine 2D/3D game development and interactive simulation suite."
+        },
+        {
+          "title": "KRITA & ASEPRITE STUDIO",
+          "desc": "Digital illustration, sprite sheet authoring, and frame-by-frame animation."
         }
       ]
     },

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { DiceIcon } from '../DiceIcon.jsx';
 import { ShurikenStar } from '../ShurikenStar.jsx';
-import { getModuleIcon } from '../Icons.jsx';
+import { getModuleIcon, CloseIcon } from '../Icons.jsx';
 import { sound } from '../../utils/audio.js';
 
 function getModuleTelemetryLabel(mod) {
@@ -32,9 +32,11 @@ function isTouchDevice() {
 export function ConstellationNav({
   modules,
   mode,
+  isSplitMode = false,
   activeModuleId,
   onSelectModule,
-  onResetToCore
+  onResetToCore,
+  onCloseSplit
 }) {
   const [hoveredModuleId, setHoveredModuleId] = useState(null);
   const [isHoveringDice, setIsHoveringDice] = useState(false);
@@ -93,6 +95,31 @@ export function ConstellationNav({
     Math.round(mobileStep * 2.5)
   ];
 
+  // Split Mode (Archive project inspection):
+  // Exact horizontal midpoint between the Left Detail Frame and the Right Archive List:
+  // CSS uses: sidePad (36px desktop, 20px <=960px), rightArchiveWidth = clamp(320px, 28vw, 400px), splitGap = 108px
+  const sidePad = viewport.width <= 960 ? 20 : 36;
+  const splitGap = 108;
+  const rightArchiveWidth = Math.min(400, Math.max(320, Math.round(viewport.width * 0.28)));
+  const splitSpineX = Math.round(
+    viewport.width / 2 - sidePad - rightArchiveWidth - splitGap / 2
+  );
+
+  // Topmost position for the Close (X) button (aligned with the top of the split panels, right below the header)
+  const closeTopY = Math.round(-viewport.height / 2 + 82);
+
+  // Vertical spacing for the 6 stars (3 above center Dice, 3 below), ensuring Star 0 stays below the topmost X button
+  const maxSafeStep = Math.floor((Math.abs(closeTopY) - 48) / 3);
+  const verticalStep = Math.min(54, Math.max(36, maxSafeStep));
+  const verticalYOffsets = [
+    -verticalStep * 3,
+    -verticalStep * 2,
+    -verticalStep,
+    verticalStep,
+    verticalStep * 2,
+    verticalStep * 3
+  ];
+
   // Slight upward shift in mobile circle mode so bottom labels & Diceu have breathing room
   const circleCenterOffsetY = isMobile ? -18 : 0;
 
@@ -103,6 +130,10 @@ export function ConstellationNav({
       const x = Math.round(Math.cos(angleRad) * circleRadius);
       const y = Math.round(Math.sin(angleRad) * circleRadius) + circleCenterOffsetY;
       return `translate3d(${x}px, ${y}px, 0)`;
+    }
+    if (isSplitMode && !isMobile) {
+      const y = verticalYOffsets[index] ?? 0;
+      return `translate3d(${splitSpineX}px, ${y}px, 0)`;
     }
     if (isMobile) {
       const x = mobileXOffsets[index] ?? 0;
@@ -115,10 +146,43 @@ export function ConstellationNav({
   const diceTransform =
     mode === 'circle'
       ? `translate3d(0px, ${circleCenterOffsetY}px, 0)`
+      : isSplitMode && !isMobile
+      ? `translate3d(${splitSpineX}px, 0px, 0)`
       : `translate3d(0px, ${isMobile ? mobileDiceTopY : desktopTopY}px, 0)`;
 
+  const closeNodeTransform =
+    isSplitMode && !isMobile
+      ? `translate3d(${splitSpineX}px, ${closeTopY}px, 0)`
+      : isMobile
+      ? `translate3d(${Math.round(viewport.width / 2 - 34)}px, ${mobileDiceTopY}px, 0)`
+      : `translate3d(${splitSpineX}px, ${closeTopY}px, 0)`;
+
   return (
-    <div className="constellation-anchor">
+    <div
+      className="constellation-anchor"
+      style={{
+        left: `${Math.round(viewport.width / 2)}px`,
+        top: `${Math.round(viewport.height / 2)}px`
+      }}
+    >
+      {/* Circular Close (X) Node above highest star in Split Mode */}
+      <div
+        className={`split-close-node ${isSplitMode ? 'is-visible' : ''}`}
+        style={{ transform: closeNodeTransform }}
+        onMouseEnter={() => {
+          if (!isTouchDevice() && isSplitMode) sound.playHover();
+        }}
+        onClick={() => {
+          if (isSplitMode && onCloseSplit) {
+            sound.playSelect();
+            onCloseSplit();
+          }
+        }}
+        title="Close Project View"
+      >
+        <CloseIcon size={14} />
+      </div>
+
       {/* Outer & Inner Orbital Rings (Visible in Circle Mode) */}
       <div
         className="orbital-ring"
@@ -175,10 +239,11 @@ export function ConstellationNav({
         )}
       </div>
 
-      {/* 6 Orbiting / Top-Bar Shurikens */}
+      {/* 6 Orbiting / Top-Bar / Vertical-Spine Shurikens */}
       {modules.map((mod, index) => {
         const isHovered = hoveredModuleId === mod.id;
-        const isDimmed = mode === 'circle' && hoveredModuleId !== null && !isHovered;
+        const isDimmed =
+          (mode === 'circle' || isSplitMode) && hoveredModuleId !== null && !isHovered;
         const isActive = activeModuleId === mod.id;
         const isRightSide = index <= 2;
         const shortTitle = mod.title.split(' ')[0];
@@ -215,8 +280,8 @@ export function ConstellationNav({
               </div>
             )}
 
-            {/* Top Navigation Bar Module Label */}
-            {mode === 'top' && (
+            {/* Top Navigation Bar Module Label (Hidden when stars line vertically in Split Mode) */}
+            {mode === 'top' && (!isSplitMode || isMobile) && (
               <div className={`shuriken-top-label ${isActive ? 'is-active' : ''}`}>
                 {!isMobile && (
                   <span className="shuriken-top-label-icon">
@@ -229,9 +294,13 @@ export function ConstellationNav({
               </div>
             )}
 
-            {/* Hover Preview Card in Circle Mode (Desktop / Tablet pointer devices) */}
-            {mode === 'circle' && isHovered && !isMobile && (
-              <div className={`shuriken-preview-card ${isRightSide ? 'pos-right' : 'pos-left'}`}>
+            {/* Hover Preview Card in Circle Mode AND Vertical Split Mode */}
+            {(mode === 'circle' || isSplitMode) && isHovered && !isMobile && (
+              <div
+                className={`shuriken-preview-card ${
+                  isSplitMode ? 'pos-left' : isRightSide ? 'pos-right' : 'pos-left'
+                }`}
+              >
                 {/* Tactical Leader Line connecting star to readout */}
                 <span className="shuriken-preview-connector" />
 

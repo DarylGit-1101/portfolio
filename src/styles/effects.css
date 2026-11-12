@@ -258,7 +258,7 @@
   }
   100% {
     opacity: 1;
-    color: var(--text-main);
+    color: inherit;
     transform: translate3d(0, 0, 0);
   }
 }

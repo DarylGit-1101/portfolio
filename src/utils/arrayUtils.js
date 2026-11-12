@@ -49,3 +49,36 @@ export function createModuleListHandlers(module, listKey, onUpdateModule, { prep
     remove: (index) => commit(removeArrayItem(list, index))
   };
 }
+
+/**
+ * Normalizes a project's content blocks, automatically migrating legacy `details` or `images`
+ * into the unified `blocks` array if `blocks` has not been initialized yet.
+ */
+export function getNormalizedProjectBlocks(proj) {
+  if (Array.isArray(proj?.blocks)) {
+    return proj.blocks;
+  }
+  const migrated = [];
+  if (proj?.details && proj.details.trim()) {
+    migrated.push({
+      type: 'text',
+      heading: 'TECHNICAL BREAKDOWN & ARCHITECTURE',
+      content: proj.details
+    });
+  }
+  if (Array.isArray(proj?.images)) {
+    proj.images.forEach((img) => {
+      if (img?.url) {
+        migrated.push({
+          type: 'image_text',
+          layout: 'stack',
+          imageUrl: img.url,
+          caption: img.caption || '',
+          heading: '',
+          content: ''
+        });
+      }
+    });
+  }
+  return migrated;
+}

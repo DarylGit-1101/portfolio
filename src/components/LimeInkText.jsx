@@ -11,18 +11,61 @@ function randomBetween(min, max) {
 }
 
 /**
+ * Splits a string into word tokens (or 2-word phrases for long paragraphs to keep DOM light)
+ * while preserving whitespace and newline characters.
+ */
+function tokenizeForInk(text) {
+  const rawTokens = text.split(/(\s+)/);
+  if (text.length <= 160) {
+    return rawTokens;
+  }
+
+  // Group into 2-word phrases for longer paragraphs so the staggered word-reveal effect
+  // works consistently on long descriptions without excessive DOM spans.
+  const grouped = [];
+  let buffer = '';
+  let wordCount = 0;
+
+  for (const token of rawTokens) {
+    if (token.includes('\n')) {
+      if (buffer) {
+        grouped.push(buffer);
+        buffer = '';
+        wordCount = 0;
+      }
+      grouped.push(token);
+    } else if (/^\s+$/.test(token)) {
+      if (wordCount > 0 && wordCount < 2) {
+        buffer += token;
+      } else {
+        if (buffer) {
+          grouped.push(buffer);
+          buffer = '';
+          wordCount = 0;
+        }
+        grouped.push(token);
+      }
+    } else {
+      buffer += token;
+      wordCount += 1;
+      if (wordCount >= 2) {
+        grouped.push(buffer);
+        buffer = '';
+        wordCount = 0;
+      }
+    }
+  }
+
+  if (buffer) {
+    grouped.push(buffer);
+  }
+  return grouped;
+}
+
+/**
  * LimeInkText — Simulates invisible lime juice on parchment exposed to flame.
- * Breaks sentences into individual word particles, each scorching into visibility
- * at unpredictable, randomized timings across the surface.
- *
- * Visual progression:
- * 1. Invisible on damp parchment
- * 2. Flame touches: Citric acid scorches with fiery amber/citrus halo bloom
- * 3. Caramelizes to rich toasted sienna
- * 4. Cools and settles into crisp dark carbon ink (#3a362e)
- *
- * When drying/vanished:
- * Dissolves back into paper with a delicate heat shimmer.
+ * Breaks sentences into word/phrase particles, each scorching into visibility
+ * at randomized timings across the surface, and dissolving when drying.
  */
 export function LimeInkText({
   children,
@@ -33,22 +76,20 @@ export function LimeInkText({
   style = {},
   className = ''
 }) {
-  // If children is plain text, split into short chunks (or animate as a single block for long paragraphs)
   const isString = typeof children === 'string';
-  const isLongText = isString && children.length > 64;
 
-  const words = useMemo(() => {
-    if (!isString || isLongText) return null;
-    return children.split(/(\s+)/); // Preserves whitespace for short headings/titles
-  }, [children, isString, isLongText]);
+  const tokens = useMemo(() => {
+    if (!isString) return null;
+    return tokenizeForInk(children);
+  }, [children, isString]);
 
-  // Pre-generate stable random delays for each word
+  // Pre-generate stable random delays for each token
   const delays = useMemo(() => {
-    if (!words) return [];
-    return words.map((chunk) => (/^\s+$/.test(chunk) ? 0 : randomBetween(delayMin, delayMax)));
-  }, [words, delayMin, delayMax]);
+    if (!tokens) return [];
+    return tokens.map((chunk) => (/^\s+$/.test(chunk) ? 0 : randomBetween(delayMin, delayMax)));
+  }, [tokens, delayMin, delayMax]);
 
-  if (!isString || isLongText) {
+  if (!isString) {
     return (
       <LimeInkBlock
         as={Tag}
@@ -67,10 +108,9 @@ export function LimeInkText({
 
   return (
     <Tag className={`lime-ink-text-wrapper ${className}`} style={{ ...style, display: 'inline' }}>
-      {words.map((word, idx) => {
-        // Render whitespace verbatim without animation wrappers
-        if (/^\s+$/.test(word)) {
-          return <span key={idx}>{word}</span>;
+      {tokens.map((token, idx) => {
+        if (/^\s+$/.test(token)) {
+          return <span key={idx}>{token}</span>;
         }
 
         const delay = delays[idx];
@@ -81,10 +121,10 @@ export function LimeInkText({
             className={`lime-ink-word ${animClass}`}
             style={{
               display: 'inline-block',
-              animationDelay: state === 'drying' ? `${(idx % 6) * 40}ms` : `${delay}ms`
+              animationDelay: state === 'drying' ? `${(idx % 6) * 35}ms` : `${delay}ms`
             }}
           >
-            {word}
+            {token}
           </span>
         );
       })}
@@ -107,7 +147,7 @@ export function LimeInkBlock({
   const { revealDelay, dryDelay } = useMemo(
     () => ({
       revealDelay: randomBetween(delayMin, delayMax),
-      dryDelay: randomBetween(0, 200)
+      dryDelay: randomBetween(0, 180)
     }),
     [delayMin, delayMax]
   );

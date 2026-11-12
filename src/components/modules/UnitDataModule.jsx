@@ -23,8 +23,16 @@ export function UnitDataModule({ module, inkState }) {
       >
         {module.specs.map((spec) => (
           <div key={spec.label} className="unit-spec-item">
-            <div className="unit-spec-label">{spec.label}</div>
-            <div className="unit-spec-value">{spec.value}</div>
+            <div className="unit-spec-label">
+              <LimeInkText state={inkState} delayMin={500} delayMax={880}>
+                {spec.label}
+              </LimeInkText>
+            </div>
+            <div className="unit-spec-value">
+              <LimeInkText state={inkState} delayMin={580} delayMax={1000}>
+                {spec.value}
+              </LimeInkText>
+            </div>
           </div>
         ))}
       </LimeInkBlock>
