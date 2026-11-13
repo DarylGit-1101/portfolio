@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { PodLaserSurface } from '../PodLaserSurface.jsx';
 import { LimeInkText, LimeInkBlock } from '../LimeInkText.jsx';
 import { getModuleIcon, ExternalLinkIcon } from '../Icons.jsx';
@@ -39,22 +39,111 @@ export function DossierContainer({
   selectedProjectIndex = null,
   detailLaserState = 'settled',
   detailInkState = 'revealing',
-  onSelectProject
+  onSelectProject,
+  onCloseProject
 }) {
+  const [isMobileIndexMinimized, setIsMobileIndexMinimized] = useState(true);
+
+  useEffect(() => {
+    if (selectedProjectIndex !== null) {
+      setIsMobileIndexMinimized(true);
+    }
+  }, [selectedProjectIndex]);
+
   if (!activeModule) return null;
 
   const ModuleView = MODULE_VIEWS[activeModule.id];
+  const totalProjects = activeModule.items?.length || 0;
   const selectedProject =
     isSplitMode && activeModule.items ? activeModule.items[selectedProjectIndex] : null;
   const projectBlocks = selectedProject ? getNormalizedProjectBlocks(selectedProject) : [];
 
+  const handleCloseInspection = () => {
+    sound.playSelect();
+    if (onCloseProject) {
+      onCloseProject();
+    } else if (onSelectProject) {
+      onSelectProject(null);
+    }
+  };
+
+  const handleStepProject = (delta) => {
+    if (!totalProjects || selectedProjectIndex === null || !onSelectProject) return;
+    sound.playSelect();
+    const nextIdx = (selectedProjectIndex + delta + totalProjects) % totalProjects;
+    onSelectProject(nextIdx);
+  };
+
+  const handleToggleMobileIndex = () => {
+    sound.playSelect();
+    setIsMobileIndexMinimized((prev) => !prev);
+  };
+
+  const handleArchiveCardSelect = (idx) => {
+    if (!onSelectProject) return;
+    const isMobileViewport =
+      typeof window !== 'undefined' &&
+      (document.documentElement.clientWidth || window.innerWidth) <= 768;
+
+    if (isSplitMode && isMobileViewport && idx === selectedProjectIndex) {
+      setIsMobileIndexMinimized(true);
+      return;
+    }
+    onSelectProject(idx === selectedProjectIndex ? null : idx);
+  };
+
   return (
-    <div className={`dossier-wrapper ${isSplitMode ? 'is-split-mode' : ''}`}>
+    <div
+      className={`dossier-wrapper ${isSplitMode ? 'is-split-mode' : ''} ${
+        isSplitMode
+          ? isMobileIndexMinimized
+            ? 'is-mobile-index-minimized'
+            : 'is-mobile-index-expanded'
+          : ''
+      }`}
+    >
       {/* Left Side Expanded Project Inspection View (Synchronized with Pod Laser & LimeInk) */}
       {isSplitMode && selectedProject && (
         <div className="dossier-detail-frame">
           <PodLaserSurface state={detailLaserState} />
           <DossierCorners />
+
+          {/* Mobile Tactical Record Navigation Bar (Sticky top bar on <= 768px) */}
+          <div className="archive-mobile-nav-bar">
+            <button
+              type="button"
+              className="archive-mobile-back-btn"
+              onClick={handleCloseInspection}
+            >
+              <span>← ARCHIVE LIST</span>
+            </button>
+
+            {totalProjects > 1 && (
+              <div className="archive-mobile-stepper">
+                <button
+                  type="button"
+                  className="archive-mobile-step-btn"
+                  onClick={() => handleStepProject(-1)}
+                  aria-label="Previous Project"
+                >
+                  ◄
+                </button>
+                <span className="archive-mobile-step-count">
+                  {`${String(selectedProjectIndex + 1).padStart(2, '0')} / ${String(
+                    totalProjects
+                  ).padStart(2, '0')}`}
+                </span>
+                <button
+                  type="button"
+                  className="archive-mobile-step-btn"
+                  onClick={() => handleStepProject(1)}
+                  aria-label="Next Project"
+                >
+                  ►
+                </button>
+              </div>
+            )}
+          </div>
 
           <div
             key={`detail-${selectedProjectIndex}`}
@@ -220,15 +309,57 @@ export function DossierContainer({
                 </div>
               </div>
             )}
+
+            {/* Mobile Bottom Quick-Action Footer inside Detail Scroll */}
+            <div className="archive-mobile-detail-footer">
+              <button
+                type="button"
+                className="archive-mobile-footer-btn"
+                onClick={handleCloseInspection}
+              >
+                <span>← RETURN TO ARCHIVE</span>
+              </button>
+              {totalProjects > 1 && (
+                <button
+                  type="button"
+                  className="archive-mobile-footer-btn is-primary"
+                  onClick={() => handleStepProject(1)}
+                >
+                  <span>NEXT RECORD ►</span>
+                </button>
+              )}
+            </div>
           </div>
         </div>
       )}
 
-      {/* Main Dossier Frame (Centered in normal mode, narrowed & moved to furthest right in Split Mode) */}
+      {/* Main Dossier Frame (Centered in normal mode, narrowed & moved to furthest right in Split Mode, Collapsible Index Drawer on Mobile Split Mode) */}
       <div className="dossier-frame">
         {/* NieR: Automata Pod Optical Laser Scan & De-Cloak */}
         <PodLaserSurface state={laserState} />
         <DossierCorners />
+
+        {/* Mobile Minimizable Archive Index Drawer Bar (Visible on <= 768px in Split Mode) */}
+        {isSplitMode && (
+          <button
+            type="button"
+            className="dossier-mobile-drawer-bar"
+            onClick={handleToggleMobileIndex}
+          >
+            <span className="dossier-mobile-drawer-left">
+              <span className="dossier-mobile-drawer-pip" />
+              <span className="dossier-mobile-drawer-title">
+                {`[${activeModule.code}] ARCHIVE INDEX // ${String(totalProjects).padStart(
+                  2,
+                  '0'
+                )} RECORDS`}
+              </span>
+            </span>
+            <span className="dossier-mobile-drawer-toggle">
+              {isMobileIndexMinimized ? '▲ EXPAND LIST' : '▼ MINIMIZE'}
+            </span>
+          </button>
+        )}
 
         {/* Scrollable Content Area Synchronized with Laser Sweep */}
         <div
@@ -286,7 +417,7 @@ export function DossierContainer({
               inkState={inkState}
               isSplitMode={isSplitMode}
               selectedProjectIndex={selectedProjectIndex}
-              onSelectProject={onSelectProject}
+              onSelectProject={handleArchiveCardSelect}
             />
           )}
         </div>

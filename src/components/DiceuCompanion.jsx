@@ -772,7 +772,7 @@ export function DiceuCompanion({ mode, activeModule, laserState }) {
   return (
     <div
       ref={containerRef}
-      className="diceu-companion-anchor"
+      className={`diceu-companion-anchor ${mode === 'top' ? 'is-top-mode' : ''}`}
       onMouseDown={handleMouseDown}
       onTouchStart={handleTouchStart}
       onClick={handleClick}

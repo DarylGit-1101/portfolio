@@ -66,6 +66,7 @@ export function App() {
       />
 
       <ConstellationNav
+        profile={portfolioData.profile}
         modules={portfolioData.modules}
         mode={navMode}
         isSplitMode={isNavSplit}
@@ -85,6 +86,7 @@ export function App() {
           detailLaserState={detailLaserState}
           detailInkState={detailInkState}
           onSelectProject={selectProject}
+          onCloseProject={closeProject}
         />
       )}
 

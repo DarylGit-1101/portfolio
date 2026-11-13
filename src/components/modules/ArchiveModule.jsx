@@ -37,7 +37,7 @@ export function ArchiveModule({
             onClick={() => {
               if (onSelectProject) {
                 sound.playSelect();
-                onSelectProject(isSelected ? null : idx);
+                onSelectProject(idx);
               }
             }}
             className={`archive-card is-interactive ${isSelected ? 'is-selected' : ''}`}
@@ -66,6 +66,12 @@ export function ArchiveModule({
                   {proj.stats}
                 </LimeInkBlock>
               )}
+
+              {isSplitMode && (
+                <span className="archive-card-compact-status">
+                  {isSelected ? '◆ ACTIVE' : 'INSPECT ↗'}
+                </span>
+              )}
             </div>
 
             <div className="archive-card-category">
@@ -82,18 +88,30 @@ export function ArchiveModule({
                   </LimeInkText>
                 </p>
 
-                <div className="archive-tech-tags">
-                  {proj.tech.map((t) => (
-                    <LimeInkBlock
-                      key={t}
-                      state={inkState}
-                      delayMin={500}
-                      delayMax={1200}
-                      className="archive-tech-tag"
-                    >
-                      {t}
-                    </LimeInkBlock>
-                  ))}
+                <div className="archive-card-bottom-row">
+                  <div className="archive-tech-tags">
+                    {proj.tech.map((t) => (
+                      <LimeInkBlock
+                        key={t}
+                        state={inkState}
+                        delayMin={500}
+                        delayMax={1200}
+                        className="archive-tech-tag"
+                      >
+                        {t}
+                      </LimeInkBlock>
+                    ))}
+                  </div>
+
+                  <LimeInkBlock
+                    state={inkState}
+                    delayMin={550}
+                    delayMax={1200}
+                    className="archive-card-inspect-cta"
+                  >
+                    <span>INSPECT DOSSIER</span>
+                    <span>↗</span>
+                  </LimeInkBlock>
                 </div>
               </>
             )}

@@ -145,6 +145,7 @@
   position: absolute;
   top: -28px;
   left: -28px;
+  z-index: 50;
   transition: transform 0.85s var(--ease-out-expo);
   -webkit-tap-highlight-color: transparent;
 }
@@ -336,10 +337,19 @@
   box-shadow: 0 3px 10px rgba(58, 54, 46, 0.12);
 }
 
-/* Top star (12 o'clock): place badge ABOVE the star so it doesn't enter the circle */
-.shuriken-orbit-mobile-label.orbit-pos-0 {
+/* Upper stars (12, 2, 10 o'clock): place badge ABOVE the star so labels fan outward */
+.shuriken-orbit-mobile-label.orbit-pos-0,
+.shuriken-orbit-mobile-label.orbit-pos-1,
+.shuriken-orbit-mobile-label.orbit-pos-5 {
   top: auto;
-  bottom: 30px;
+  bottom: 29px;
+}
+
+.shuriken-orbit-mobile-label.orbit-pos-2,
+.shuriken-orbit-mobile-label.orbit-pos-3,
+.shuriken-orbit-mobile-label.orbit-pos-4 {
+  top: 29px;
+  bottom: auto;
 }
 
 .shuriken-orbit-mobile-code {
@@ -803,6 +813,15 @@
   text-overflow: ellipsis;
 }
 
+/* Mobile-specific HUD & Archive controls hidden on Desktop */
+.mobile-core-briefing,
+.mobile-top-hud-dock,
+.archive-mobile-nav-bar,
+.archive-mobile-detail-footer,
+.dossier-mobile-drawer-bar {
+  display: none;
+}
+
 /* Responsive adjustments */
 @media (max-width: 960px) {
   .telemetry-hide-tablet {
@@ -827,7 +846,7 @@
 
 @media (max-width: 768px) {
   .telemetry-header {
-    padding: 0 14px;
+    padding: 0 12px;
     height: 40px;
   }
   .telemetry-brand {
@@ -840,7 +859,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 175px;
+    max-width: 190px;
   }
   .telemetry-hide-mobile {
     display: none;
@@ -858,47 +877,414 @@
     letter-spacing: 0.8px;
   }
 
-  .dice-node {
-    top: -18px;
-    left: -18px;
-  }
-  .shuriken-node {
-    top: -12px;
-    left: -12px;
-  }
-  .shuriken-top-label {
-    top: 24px;
-    gap: 1px;
-  }
-  .shuriken-top-label-text {
-    font-size: 8px;
-    letter-spacing: 0.7px;
-    padding-bottom: 2px;
+  /* -------------------------------------------------------------------
+     Mobile Circle Mode Briefing Card (YoRHa Operator Readout)
+     ------------------------------------------------------------------- */
+  .mobile-core-briefing {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    background: rgba(242, 237, 225, 0.94);
+    border: 1px solid var(--border-line);
+    border-left: 3px solid var(--text-main);
+    box-shadow: 0 8px 24px rgba(58, 54, 46, 0.12);
+    z-index: 30;
+    pointer-events: none;
+    animation: fadeInSlide 0.35s var(--ease-out-expo) forwards;
   }
 
+  .mobile-core-briefing-top {
+    background: var(--text-main);
+    color: var(--bg-primary);
+    padding: 4px 10px;
+    font-family: var(--font-mono);
+    font-size: 8.5px;
+    letter-spacing: 1.4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .mobile-core-briefing-pip {
+    width: 4px;
+    height: 4px;
+    background: var(--bg-primary);
+    transform: rotate(45deg);
+    flex-shrink: 0;
+  }
+
+  .mobile-core-briefing-status {
+    margin-left: auto;
+    color: var(--bg-surface);
+    font-size: 8px;
+  }
+
+  .mobile-core-briefing-body {
+    padding: 8px 12px 9px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .mobile-core-briefing-name {
+    font-family: var(--font-serif);
+    font-size: 13.5px;
+    letter-spacing: 1.6px;
+    color: var(--text-main);
+    font-weight: 700;
+  }
+
+  .mobile-core-briefing-role {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 1px;
+    color: var(--accent-gold);
+  }
+
+  .mobile-core-briefing-hint {
+    margin-top: 4px;
+    padding-top: 4px;
+    border-top: 1px dashed var(--border-line);
+    font-family: var(--font-mono);
+    font-size: 8.5px;
+    letter-spacing: 1px;
+    color: var(--text-dim);
+  }
+
+  /* -------------------------------------------------------------------
+     Mobile Framed Tactical HUD Dock (Active Module Mode)
+     ------------------------------------------------------------------- */
+  .mobile-top-hud-dock {
+    position: absolute;
+    height: 86px;
+    display: flex;
+    flex-direction: column;
+    background: rgba(218, 212, 195, 0.95);
+    border: 1px solid var(--border-line);
+    box-shadow: 0 6px 20px rgba(58, 54, 46, 0.1);
+    z-index: 10;
+    pointer-events: auto;
+    animation: fadeInSlide 0.3s var(--ease-out-expo) forwards;
+  }
+
+  .mobile-hud-core-row {
+    height: 37px;
+    padding: 0 8px;
+    border-bottom: 1px solid var(--border-line);
+    background: rgba(234, 228, 211, 0.65);
+    display: grid;
+    grid-template-columns: 1fr 44px 1fr;
+    align-items: center;
+  }
+
+  .mobile-hud-dice-bay {
+    width: 44px;
+    height: 100%;
+    border-left: 1px solid var(--border-subtle);
+    border-right: 1px solid var(--border-subtle);
+    background: rgba(242, 237, 225, 0.45);
+  }
+
+  .mobile-hud-active-readout {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 1px;
+    min-width: 0;
+    padding-right: 6px;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .mobile-hud-pip {
+    width: 5px;
+    height: 5px;
+    background: var(--text-main);
+    transform: rotate(45deg);
+    flex-shrink: 0;
+  }
+
+  .mobile-hud-active-code {
+    color: var(--accent-gold);
+    font-weight: 700;
+  }
+
+  .mobile-hud-active-title {
+    color: var(--text-main);
+    font-weight: 700;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .mobile-hud-return-btn {
+    justify-self: end;
+    background: var(--bg-surface-light);
+    border: 1px solid var(--border-line);
+    border-left: 2px solid var(--text-main);
+    padding: 3px 8px;
+    font-family: var(--font-mono);
+    font-size: 8.5px;
+    font-weight: 700;
+    letter-spacing: 0.9px;
+    color: var(--text-main);
+    white-space: nowrap;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .mobile-hud-return-btn:active {
+    background: var(--text-main);
+    color: var(--bg-primary);
+  }
+
+  .mobile-hud-tabs-row {
+    height: 47px;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+  }
+
+  .mobile-hud-tab-slot {
+    background: transparent;
+    border: none;
+    border-right: 1px solid var(--border-subtle);
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    padding: 0;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .mobile-hud-tab-slot:last-child {
+    border-right: none;
+  }
+
+  .mobile-hud-tab-slot.is-active {
+    background: rgba(242, 237, 225, 0.78);
+    border-bottom-color: var(--text-main);
+  }
+
+  .shuriken-top-label {
+    top: 20px;
+    gap: 1px;
+  }
+
+  .shuriken-top-label-text {
+    font-size: 7.5px;
+    letter-spacing: 0.5px;
+    padding-bottom: 0;
+    border-bottom: none !important;
+  }
+
+  /* -------------------------------------------------------------------
+     Mobile Dossier Container & Collapsible Archive Split View
+     ------------------------------------------------------------------- */
   .dossier-wrapper {
     padding: 0 10px;
-    top: 146px;
-    bottom: 38px;
+    top: 132px;
+    bottom: 36px;
   }
+
   .dossier-wrapper.is-split-mode {
-    top: 146px;
-    bottom: 38px;
+    top: 132px;
+    bottom: 36px;
     padding: 0 10px;
     flex-direction: column;
-    gap: 10px;
+    justify-content: flex-start;
+    gap: 8px;
   }
+
   .dossier-detail-frame {
     width: 100%;
-    height: 62%;
+    flex: 1;
+    height: auto;
+    min-height: 0;
   }
+
   .dossier-wrapper.is-split-mode .dossier-frame {
     width: 100%;
     max-width: 100%;
-    height: 38%;
+    flex-shrink: 0;
+    transition: height 0.35s var(--ease-out-expo);
   }
+
+  /* Minimized State: Archive list collapses into a sleek 40px tactical bar */
+  .dossier-wrapper.is-split-mode.is-mobile-index-minimized .dossier-frame {
+    height: 40px;
+  }
+
+  .dossier-wrapper.is-split-mode.is-mobile-index-minimized .dossier-frame .dossier-scroll-area {
+    display: none;
+  }
+
+  .dossier-wrapper.is-split-mode.is-mobile-index-minimized .dossier-frame .dossier-corner {
+    display: none;
+  }
+
+  /* Expanded State: Archive list drawer opens to 45% height for quick record switching */
+  .dossier-wrapper.is-split-mode.is-mobile-index-expanded .dossier-frame {
+    height: 45%;
+  }
+
+  .dossier-wrapper.is-split-mode .dossier-split-sidebar-header {
+    display: none;
+  }
+
+  .dossier-wrapper.is-split-mode .dossier-frame .dossier-scroll-area {
+    padding: 10px 12px 16px;
+  }
+
+  /* Mobile Minimizable Archive Index Drawer Bar */
+  .dossier-mobile-drawer-bar {
+    position: relative;
+    z-index: 26;
+    width: 100%;
+    height: 40px;
+    flex-shrink: 0;
+    padding: 0 14px;
+    background: var(--text-main);
+    color: var(--bg-primary);
+    border: none;
+    border-bottom: 1px solid var(--border-line);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-mono);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .dossier-mobile-drawer-left {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 9.5px;
+    letter-spacing: 1.2px;
+    font-weight: 700;
+  }
+
+  .dossier-mobile-drawer-pip {
+    width: 5px;
+    height: 5px;
+    background: var(--accent-amber);
+    transform: rotate(45deg);
+    flex-shrink: 0;
+  }
+
+  .dossier-mobile-drawer-toggle {
+    font-size: 9px;
+    letter-spacing: 1px;
+    padding: 3px 8px;
+    background: rgba(242, 237, 225, 0.14);
+    border: 1px solid rgba(242, 237, 225, 0.35);
+    color: var(--bg-primary);
+    font-weight: 700;
+  }
+
+  /* Mobile Sticky Top Bar inside Project Detail Frame */
+  .archive-mobile-nav-bar {
+    position: relative;
+    z-index: 25;
+    flex-shrink: 0;
+    height: 38px;
+    padding: 0 12px;
+    background: rgba(234, 228, 211, 0.85);
+    border-bottom: 1px solid var(--border-line);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-mono);
+  }
+
+  .archive-mobile-back-btn {
+    background: var(--bg-surface-light);
+    border: 1px solid var(--border-line);
+    border-left: 2px solid var(--text-main);
+    padding: 4px 10px;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--text-main);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .archive-mobile-back-btn:active {
+    background: var(--text-main);
+    color: var(--bg-primary);
+  }
+
+  .archive-mobile-stepper {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .archive-mobile-step-btn {
+    width: 26px;
+    height: 24px;
+    background: var(--bg-surface-light);
+    border: 1px solid var(--border-line);
+    color: var(--text-main);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .archive-mobile-step-btn:active {
+    background: var(--text-main);
+    color: var(--bg-primary);
+  }
+
+  .archive-mobile-step-count {
+    font-size: 9.5px;
+    letter-spacing: 1px;
+    color: var(--accent-gold);
+    font-weight: 700;
+    min-width: 42px;
+    text-align: center;
+  }
+
+  /* Mobile Detail Bottom Navigation Footer */
+  .archive-mobile-detail-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding-top: 16px;
+    margin-top: 8px;
+    border-top: 1px dashed var(--border-line);
+  }
+
+  .archive-mobile-footer-btn {
+    flex: 1;
+    padding: 9px 12px;
+    background: var(--bg-surface-light);
+    border: 1px solid var(--border-line);
+    color: var(--text-main);
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 1.1px;
+    text-align: center;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .archive-mobile-footer-btn.is-primary {
+    background: var(--text-main);
+    color: var(--bg-primary);
+    border-color: var(--text-main);
+  }
+
   .dossier-scroll-area {
-    padding: 20px 16px 28px;
+    padding: 18px 14px 24px;
     -webkit-overflow-scrolling: touch;
   }
   .dossier-corner {
@@ -910,21 +1296,21 @@
   .dossier-corner.br { bottom: 6px; right: 8px; }
 
   .dossier-module-header {
-    gap: 14px;
-    margin-bottom: 22px;
-    padding-bottom: 16px;
+    gap: 12px;
+    margin-bottom: 18px;
+    padding-bottom: 14px;
     align-items: flex-start;
   }
   .dossier-module-icon-box {
-    width: 42px;
-    height: 42px;
+    width: 40px;
+    height: 40px;
   }
   .dossier-module-meta {
     font-size: 9.5px;
     letter-spacing: 1.2px;
   }
   .dossier-module-title {
-    font-size: 20px;
+    font-size: 19px;
     letter-spacing: 2px;
   }
   .dossier-module-tagline {
@@ -933,7 +1319,7 @@
   }
 
   .telemetry-footer {
-    padding: 0 14px;
+    padding: 0 12px;
     height: 32px;
     font-size: 9px;
     letter-spacing: 1.1px;
