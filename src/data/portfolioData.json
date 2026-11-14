@@ -25,6 +25,30 @@
               "type": "text",
               "heading": "TECHNICAL BREAKDOWN & ARCHITECTURE",
               "content": "• Architected separated data, service, presentation, UI, and world layers with dedicated managers for campaigns, maps, grids, game state, networking, and synchronization.\n• Implemented multiplayer networking using Godot ENet with host/client architecture, room-code authentication, admin/player roles, peer lifecycle management, and RPC communication.\n• Developed server-authoritative board synchronization supporting late-joining clients and JSON-based local campaign persistence.\n• Built map asset management supporting PNG, JPG, JPEG, and WebP with 512×512 chunk loading and compressed chunk-based network transfer.\n• Engineered a unified grid system (square, pointy-hex, flat-hex), tactical measurement tools (distance, circle, triangle, rectangle, ping), networked 3D physics dice with transform-frame replay, and a dynamic initiative tracker."
+            },
+            {
+              "type": "image_text",
+              "layout": "stack",
+              "imageUrl": "./projects/1794690795099-image_2026-11-15_051315068.png",
+              "caption": "image 2026 11 15 051315068",
+              "heading": "DICEU VTT MAIN MENU",
+              "content": "Landing page for DICEU VTT, where users can host, join, create character sheets, settings, and exit."
+            },
+            {
+              "type": "image_text",
+              "layout": "stack",
+              "imageUrl": "./projects/1794691105098-image_2026-11-15_051825034.png",
+              "caption": "image 2026 11 15 051825034",
+              "heading": "MAIN BOARD",
+              "content": ""
+            },
+            {
+              "type": "image_text",
+              "layout": "split-left",
+              "imageUrl": "./projects/1794691225678-image_2026-11-15_052025653.png",
+              "caption": "image 2026 11 15 052025653",
+              "heading": "DICE ROLLS",
+              "content": "Dice rolls are based on the face that points to the most Y positive instead of RNG and predetermined physics."
             }
           ],
           "tech": [
@@ -35,7 +59,9 @@
             "3D Physics",
             "JSON State"
           ],
-          "links": []
+          "links": [],
+          "details": "",
+          "images": []
         },
         {
           "title": "ARTLAS — CROSS-PLATFORM CREATOR PLATFORM",
