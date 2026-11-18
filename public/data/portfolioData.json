@@ -34,7 +34,7 @@
               "type": "image_text",
               "layout": "stack",
               "imageUrl": "./projects/1795007741864-whatsapp_image_2026-11-18_at_20.57.15.jpeg",
-              "caption": "WhatsApp Image 2026 11 18 at 20.57.15",
+              "caption": "Landing Page",
               "heading": "LANDING PAGE",
               "content": ""
             },
@@ -42,7 +42,7 @@
               "type": "image_text",
               "layout": "stack",
               "imageUrl": "./projects/1795007789215-whatsapp_image_2026-11-18_at_20.58.02.jpeg",
-              "caption": "WhatsApp Image 2026 11 18 at 20.58.02",
+              "caption": "Quick Access",
               "heading": "QUICK ACCESS",
               "content": "A more compacted quick access links for easier viewing."
             },
@@ -50,7 +50,7 @@
               "type": "image_text",
               "layout": "stack",
               "imageUrl": "./projects/1795007849926-whatsapp_image_2026-11-18_at_20.59.22.jpeg",
-              "caption": "WhatsApp Image 2026 11 18 at 20.59.22",
+              "caption": "Admin Side",
               "heading": "ADMIN SIDE OVERALL VIEW",
               "content": "Clean and easy to understand workflow that does not require deep technical skills to operate."
             },
@@ -58,7 +58,7 @@
               "type": "image_text",
               "layout": "stack",
               "imageUrl": "./projects/1795007935254-whatsapp_image_2026-11-18_at_20.59.48.jpeg",
-              "caption": "WhatsApp Image 2026 11 18 at 20.59.48",
+              "caption": "Admin Side Slider Sequence",
               "heading": "ADMIN SIDE SLIDER SEQUENCE",
               "content": "Slider arranged in albums for better management and viewing."
             },
@@ -66,7 +66,7 @@
               "type": "image_text",
               "layout": "stack",
               "imageUrl": "./projects/1795008051920-whatsapp_image_2026-11-18_at_21.00.10.jpeg",
-              "caption": "WhatsApp Image 2026 11 18 at 21.00.10",
+              "caption": "Admin Side Notice Board",
               "heading": "ADMIN SIDE NOTICE BOARD",
               "content": "Compact design for better viewing, easier managing, and cleaner overview."
             }
@@ -90,7 +90,7 @@
               "type": "image_text",
               "layout": "stack",
               "imageUrl": "./projects/1794690795099-image_2026-11-15_051315068.png",
-              "caption": "image 2026 11 15 051315068",
+              "caption": "Main Menu",
               "heading": "DICEU VTT MAIN MENU",
               "content": "Landing page for DICEU VTT, where users can host, join, create character sheets, settings, and exit."
             },
@@ -98,7 +98,7 @@
               "type": "image_text",
               "layout": "stack",
               "imageUrl": "./projects/1794691105098-image_2026-11-15_051825034.png",
-              "caption": "image 2026 11 15 051825034",
+              "caption": "Main Board",
               "heading": "MAIN BOARD",
               "content": ""
             },
@@ -106,7 +106,7 @@
               "type": "image_text",
               "layout": "split-left",
               "imageUrl": "./projects/1794691225678-image_2026-11-15_052025653.png",
-              "caption": "image 2026 11 15 052025653",
+              "caption": "Dice Rolls",
               "heading": "DICE ROLLS",
               "content": "Dice rolls are based on the face that points to the most Y positive instead of RNG and predetermined physics."
             }
@@ -138,7 +138,7 @@
               "type": "image_text",
               "layout": "stack",
               "imageUrl": "./projects/1795007087614-whatsapp_image_2026-11-16_at_15.12.45.jpeg",
-              "caption": "WhatsApp Image 2026 11 16 at 15.13.03",
+              "caption": "Landing Page",
               "heading": "LANDING PAGE",
               "content": ""
             },
@@ -146,7 +146,7 @@
               "type": "image_text",
               "layout": "split-left",
               "imageUrl": "./projects/1795007140820-whatsapp_image_2026-11-16_at_15.13.03.jpeg",
-              "caption": "WhatsApp Image 2026 11 16 at 15.13.03",
+              "caption": "Art Page",
               "heading": "ART PAGE",
               "content": "Art page to view and interact with masterpieces made by the user and others."
             }
