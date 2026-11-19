@@ -142,7 +142,8 @@ export function LimeInkBlock({
   delayMin = 200,
   delayMax = 900,
   style = {},
-  className = ''
+  className = '',
+  ...rest
 }) {
   const { revealDelay, dryDelay } = useMemo(
     () => ({
@@ -161,6 +162,7 @@ export function LimeInkBlock({
         ...style,
         animationDelay: state === 'drying' ? `${dryDelay}ms` : `${revealDelay}ms`
       }}
+      {...rest}
     >
       {children}
     </Tag>

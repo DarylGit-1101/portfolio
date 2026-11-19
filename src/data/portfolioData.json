@@ -318,15 +318,15 @@
             },
             {
               "name": "SQL & SQLite Database Systems",
-              "value": "92%"
+              "value": "100%"
             },
             {
               "name": "C++ & C# Systems Programming",
-              "value": "88%"
+              "value": "85%"
             },
             {
               "name": "Git & Server Administration",
-              "value": "92%"
+              "value": "95%"
             }
           ]
         },
@@ -335,19 +335,19 @@
           "chips": [
             {
               "name": "JavaScript (ESNext) / TypeScript",
-              "value": "92%"
-            },
-            {
-              "name": "React & Component Architecture",
               "value": "90%"
             },
             {
+              "name": "React & Component Architecture",
+              "value": "70%"
+            },
+            {
               "name": "Flutter & Provider State",
-              "value": "88%"
+              "value": "70%"
             },
             {
               "name": "Vite & Modern Web Toolchains",
-              "value": "94%"
+              "value": "90%"
             }
           ]
         },
@@ -356,15 +356,15 @@
           "chips": [
             {
               "name": "Godot 4 (GDScript & ENet)",
-              "value": "92%"
+              "value": "90%"
             },
             {
               "name": "Unity Engine (C# & VR)",
-              "value": "86%"
+              "value": "85%"
             },
             {
               "name": "Unreal Engine (C++ / Blueprints)",
-              "value": "82%"
+              "value": "80%"
             },
             {
               "name": "State Machines & Game Physics",

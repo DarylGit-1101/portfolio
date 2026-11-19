@@ -897,7 +897,8 @@
 .editor-image-thumb {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  background: rgba(31, 28, 22, 0.08);
 }
 
 .editor-link-row {

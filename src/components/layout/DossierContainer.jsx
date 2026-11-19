@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { PodLaserSurface } from '../PodLaserSurface.jsx';
 import { LimeInkText, LimeInkBlock } from '../LimeInkText.jsx';
-import { getModuleIcon, ExternalLinkIcon } from '../Icons.jsx';
+import { getModuleIcon, ExternalLinkIcon, ExpandIcon, CloseIcon } from '../Icons.jsx';
 import { sound } from '../../utils/audio.js';
 import { getNormalizedProjectBlocks } from '../../utils/arrayUtils.js';
 import { ArchiveModule } from '../modules/ArchiveModule.jsx';
@@ -43,12 +43,14 @@ export function DossierContainer({
   onCloseProject
 }) {
   const [isMobileIndexMinimized, setIsMobileIndexMinimized] = useState(true);
+  const [lightboxBlockIdx, setLightboxBlockIdx] = useState(null);
 
   useEffect(() => {
     if (selectedProjectIndex !== null) {
       setIsMobileIndexMinimized(true);
     }
-  }, [selectedProjectIndex]);
+    setLightboxBlockIdx(null);
+  }, [selectedProjectIndex, isSplitMode, activeModule?.id]);
 
   if (!activeModule) return null;
 
@@ -57,6 +59,59 @@ export function DossierContainer({
   const selectedProject =
     isSplitMode && activeModule.items ? activeModule.items[selectedProjectIndex] : null;
   const projectBlocks = selectedProject ? getNormalizedProjectBlocks(selectedProject) : [];
+  const imageBlocks = projectBlocks
+    .map((block, bIdx) => ({ ...block, blockIndex: bIdx }))
+    .filter((block) => block.type === 'image_text' && Boolean(block.imageUrl));
+  const activeLightboxIdxInImages =
+    lightboxBlockIdx !== null
+      ? imageBlocks.findIndex((b) => b.blockIndex === lightboxBlockIdx)
+      : -1;
+  const activeLightboxItem =
+    activeLightboxIdxInImages >= 0 ? imageBlocks[activeLightboxIdxInImages] : null;
+
+  useEffect(() => {
+    if (activeLightboxIdxInImages < 0) return undefined;
+
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        sound.playSelect();
+        setLightboxBlockIdx(null);
+      } else if (e.key === 'ArrowRight' && imageBlocks.length > 1) {
+        e.preventDefault();
+        sound.playSelect();
+        const nextPos = (activeLightboxIdxInImages + 1) % imageBlocks.length;
+        setLightboxBlockIdx(imageBlocks[nextPos].blockIndex);
+      } else if (e.key === 'ArrowLeft' && imageBlocks.length > 1) {
+        e.preventDefault();
+        sound.playSelect();
+        const prevPos =
+          (activeLightboxIdxInImages - 1 + imageBlocks.length) % imageBlocks.length;
+        setLightboxBlockIdx(imageBlocks[prevPos].blockIndex);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [activeLightboxIdxInImages, imageBlocks]);
+
+  const handleOpenLightbox = (bIdx) => {
+    sound.playSelect();
+    setLightboxBlockIdx(bIdx);
+  };
+
+  const handleCloseLightbox = () => {
+    sound.playSelect();
+    setLightboxBlockIdx(null);
+  };
+
+  const handleStepLightbox = (delta) => {
+    if (activeLightboxIdxInImages < 0 || imageBlocks.length <= 1) return;
+    sound.playSelect();
+    const nextPos =
+      (activeLightboxIdxInImages + delta + imageBlocks.length) % imageBlocks.length;
+    setLightboxBlockIdx(imageBlocks[nextPos].blockIndex);
+  };
 
   const handleCloseInspection = () => {
     sound.playSelect();
@@ -246,7 +301,20 @@ export function DossierContainer({
                               state={detailInkState}
                               delayMin={baseDelay + 60}
                               delayMax={baseDelay + 480}
-                              className="archive-detail-figure"
+                              className="archive-detail-figure is-expandable"
+                              onMouseEnter={() => sound.playHover()}
+                              onClick={() => handleOpenLightbox(bIdx)}
+                              role="button"
+                              tabIndex={0}
+                              aria-label={`Inspect full-resolution image: ${
+                                block.caption || block.heading || `${selectedProject.title} figure ${bIdx + 1}`
+                              }`}
+                              onKeyDown={(e) => {
+                                if (e.key === 'Enter' || e.key === ' ') {
+                                  e.preventDefault();
+                                  handleOpenLightbox(bIdx);
+                                }
+                              }}
                             >
                               <div className="archive-detail-img-wrap">
                                 <img
@@ -258,13 +326,17 @@ export function DossierContainer({
                                   }
                                   className="archive-detail-img"
                                 />
-                              </div>
-                              {block.caption && (
-                                <div className="archive-detail-caption">
-                                  <span>FIG [{String(bIdx + 1).padStart(2, '0')}]</span>
-                                  <span>{block.caption}</span>
+                                <div className="archive-detail-zoom-badge">
+                                  <ExpandIcon size={11} />
+                                  <span>INSPECT FULL-RES</span>
                                 </div>
-                              )}
+                              </div>
+                              <div className="archive-detail-caption">
+                                <span>FIG [{String(bIdx + 1).padStart(2, '0')}]</span>
+                                <span className="archive-detail-caption-text">
+                                  {block.caption || block.heading || 'CLICK TO EXPAND IMAGE'}
+                                </span>
+                              </div>
                             </LimeInkBlock>
                           )}
 
@@ -422,6 +494,109 @@ export function DossierContainer({
           )}
         </div>
       </div>
+
+      {/* Tactical Full-Resolution Optical Lightbox Modal */}
+      {activeLightboxItem && selectedProject && (
+        <div
+          className="archive-lightbox-backdrop"
+          onClick={handleCloseLightbox}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Full-resolution image inspection"
+        >
+          <div
+            className="archive-lightbox-frame"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <DossierCorners />
+
+            <div className="archive-lightbox-header">
+              <div className="archive-lightbox-meta">
+                <span className="archive-detail-block-pip" />
+                <span className="archive-lightbox-code">
+                  {`OPTICAL INSPECTION // FIG [${String(
+                    activeLightboxItem.blockIndex + 1
+                  ).padStart(2, '0')}]`}
+                </span>
+                <span className="archive-lightbox-divider">//</span>
+                <span className="archive-lightbox-title">
+                  {activeLightboxItem.heading ||
+                    activeLightboxItem.caption ||
+                    selectedProject.title}
+                </span>
+              </div>
+
+              <div className="archive-lightbox-controls">
+                {imageBlocks.length > 1 && (
+                  <div className="archive-lightbox-stepper">
+                    <button
+                      type="button"
+                      className="archive-lightbox-step-btn"
+                      onMouseEnter={() => sound.playHover()}
+                      onClick={() => handleStepLightbox(-1)}
+                      aria-label="Previous image"
+                    >
+                      ◄
+                    </button>
+                    <span className="archive-lightbox-step-count">
+                      {`${String(activeLightboxIdxInImages + 1).padStart(2, '0')} / ${String(
+                        imageBlocks.length
+                      ).padStart(2, '0')}`}
+                    </span>
+                    <button
+                      type="button"
+                      className="archive-lightbox-step-btn"
+                      onMouseEnter={() => sound.playHover()}
+                      onClick={() => handleStepLightbox(1)}
+                      aria-label="Next image"
+                    >
+                      ►
+                    </button>
+                  </div>
+                )}
+
+                <button
+                  type="button"
+                  className="archive-lightbox-close-btn"
+                  onMouseEnter={() => sound.playHover()}
+                  onClick={handleCloseLightbox}
+                >
+                  <CloseIcon size={12} />
+                  <span>CLOSE [ESC]</span>
+                </button>
+              </div>
+            </div>
+
+            <div className="archive-lightbox-stage">
+              <img
+                src={activeLightboxItem.imageUrl}
+                alt={
+                  activeLightboxItem.caption ||
+                  activeLightboxItem.heading ||
+                  selectedProject.title
+                }
+                className="archive-lightbox-img"
+              />
+            </div>
+
+            {(activeLightboxItem.caption || activeLightboxItem.content) && (
+              <div className="archive-lightbox-footer">
+                {activeLightboxItem.caption && (
+                  <div className="archive-lightbox-caption">
+                    <span className="archive-lightbox-caption-tag">
+                      {`FIG [${String(activeLightboxItem.blockIndex + 1).padStart(2, '0')}]`}
+                    </span>
+                    <span>{activeLightboxItem.caption}</span>
+                  </div>
+                )}
+                {activeLightboxItem.content && (
+                  <p className="archive-lightbox-desc">{activeLightboxItem.content}</p>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
