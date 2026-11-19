@@ -18,13 +18,14 @@ src/
 │
 ├── components/
 │   ├── DiceIcon.jsx                  # Geometric Dice centerpiece & reset node
+│   ├── DiceuCompanion.jsx            # Interactive 2.5D character companion & speech HUD
 │   ├── ShurikenStar.jsx              # 4-point symmetric shuriken star (Anime.js)
 │   ├── LimeInkText.jsx               # Thermal lime-ink word & block reveal effects
 │   ├── PodLaserSurface.jsx           # NieR Pod 042 optical laser sweep surface
 │   ├── Icons.jsx                     # Shared SVG system & module vector icons
 │   ├── PortfolioEditor.jsx           # Secret configuration & content editor terminal
 │   ├── layout/                       # HUD header/footer, constellation nav, dossier frame
-│   ├── modules/                      # 6 Dossier module views (Archive..Transmissions)
+│   ├── modules/                      # 6 Dossier module views + Archive detail & lightbox modal
 │   └── editor/                       # Clearance gate, sidebar & CRUD module forms
 │
 ├── hooks/
@@ -36,7 +37,7 @@ src/
 │   ├── portfolioData.json            # Single source of truth for profile & modules
 │   └── portfolioStorage.js           # LocalStorage, custom event & disk persistence
 │
-├── styles/                           # Domain-split CSS (variables, base, layout, effects, modules, editor)
+├── styles/                           # Domain-split CSS (variables, base, layout, effects, modules, editor, diceu)
 └── utils/
     ├── arrayUtils.js                 # Immutable array & module list CRUD helpers
     └── audio.js                      # Procedural Web Audio API sound synthesizer
@@ -53,4 +54,4 @@ src/
    * Interactive 4-point diamond star animations powered by Anime.js (`outCubic`, `outQuad`).
    * Subtle procedural Web Audio clicks on hover and chimes on selection (muteable).
 3. **Data Decoupling**:
-   * All project cases, bio specs, skills, and links reside in `src/data/portfolioData.js`.
+   * All project cases, bio specs, skills, and links reside in `src/data/portfolioData.json`.
