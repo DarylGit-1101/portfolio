@@ -388,6 +388,23 @@
               "value": "90%"
             }
           ]
+        },
+        {
+          "category": "LANGUAGES",
+          "chips": [
+            {
+              "name": "ENGLISH",
+              "value": "100%"
+            },
+            {
+              "name": "MALAY",
+              "value": "100%"
+            },
+            {
+              "name": "JAPANESE",
+              "value": "70%"
+            }
+          ]
         }
       ]
     },
