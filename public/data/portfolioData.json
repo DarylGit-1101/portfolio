@@ -393,15 +393,15 @@
           "category": "LANGUAGES",
           "chips": [
             {
-              "name": "ENGLISH",
+              "name": "English",
               "value": "100%"
             },
             {
-              "name": "MALAY",
+              "name": "Malay",
               "value": "100%"
             },
             {
-              "name": "JAPANESE",
+              "name": "Japanese",
               "value": "70%"
             }
           ]
